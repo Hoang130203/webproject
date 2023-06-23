@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Page1_1</title>
+<link rel="stylesheet" href="/icons/themify-icons/themify-icons.css" >
+<link rel="/js/setting.js">
+</head>
+<body>
+<style>
+.tieude{
+color: red;
+margin-left: 50px;
+}
+.button{
+color: white;
+background-color: #0072fede;
+float: right;
+margin-right: 30px;
+height: 50px;
+line-height: 3px;
+padding: 10px 20px;
+border-radius: 7px;
+}
+.setting{
+	display: inline-block;
+	display:none;
+	position: fixed;
+    bottom:0;
+	top:30%;
+    right:0;
+    left:20%;
+    
+    
+    
+    z-index: 3;
+    border: 1px solid black;
+    background-color: white;
+    
+    min-width: 25%;
+    max-width:50%;
+    min-height: 10%;
+    max-height:30%;
+    text-align: center; justify-content: center;
+    border-radius: 10px;
+}
+.open{
+	display: inline-block;
+	
+}
+.con{
+opacity: 1;
+}
+.content {
+    /* CSS cho các thành phần cần làm mờ */
+    opacity: 0.3;
+    pointer-events: none; /* Ngăn không cho các thành phần nhận sự kiện */
+  }
+ol li {
+  list-style-type: none;
+  counter-increment: item;
+}
+
+ol li:before {
+  content: counter(item);
+  margin-right: 5px;
+  font-size: 80%;
+  background-color: #f9dd94;
+  color: #7eb4e2;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 3px;
+}  
+</style>
+<div class="con"  style="    border: 2px solid brown;
+    border-radius: 5px;
+    padding: 3px;
+    margin: 5px;
+    min-height: 190px;
+    display: inline-block;
+    min-width: 95%;
+    margin-left: 25px;
+    ">
+<button class="ti-settings js-setting" style="float: right; margin-right:30px;margin-top:15px;background-color:white;
+   padding:3px; font-size: 30px;color: blue;"></button>
+<h1 class="tieude">IT</h1>
+<h3 class= "tieude">Home  / My course  / THI Cuối kỳ</h3>
+
+<form th:action="@{/TurnEditing}" method= "POST" >
+<!--  input type="submit" value="TURN EDITING ON" class="button"-->
+<button type="submit" class="button"><h2>TURN EDITING ON</h2></button>
+</form>
+</div>
+<div class="con" style="    border: 2px solid brown;
+    border-radius: 5px;
+    padding: 3px;
+    margin: 5px;
+    min-height: 532px;
+    display: inline-block;
+    min-width: 95%;
+    margin-left: 25px;">
+  <ol style="list-style-type: none;position: absolute; left:20%;margin-top: 30px;">
+  <li th:each ="quiz: ${list}" style="padding: 5px; width: 400px;border: 1px solid #bebebe;border-radius: 2px ">
+  <a th:href="@{/{quizname}(quizname=${quiz.getQuizName})}" style="text-decoration: none;" ><span th:text="${quiz.getQuizName}"></span></a>
+  <a th:href="@{/{quizname}/xoa(quizname=${quiz.getQuizName})}" th:onclick="'javascript:showDeleteAlert()'">
+    <button  class="ti-trash" style="float:right;color: red; "></button>
+  
+  </a>
+  </li>
+  </ol>  
+  <!--  p th:each ="quiz: ${list}">
+		<button th:text="${quiz.getQuizName}">...</button>
+  </p-->
+</div>
+<div class="setting">
+	<button class="ti-close " style="float:right;margin: 10px;"></button>
+	<div style="max-width: 50%;float: left;text-align: center; justify-content: center;">
+	<h1 style="color:blue; text-align: center;margin-top: 30%;margin-left: 5%;">Question bank</h1>
+	</div>
+	<div style="max-width: 49%;float: right; margin-top: 5%;margin-right: 10%;">
+	
+	<h3 style="color: blue;"><a th:href="@{/page2_1}">Question</a></h3> 
+	<h3 style="color: blue;"><a href="#">Category</a></h3> 
+	<h3 style="color: blue;"><a href="#">Import</a></h3> 
+	<h3 style="color: blue;"><a href="#">Export</a></h3> 
+	
+	</div>
+</div>
+
+<script>
+const set= document.querySelector('.js-setting')
+const open=document.querySelector('.setting')
+const close= document.querySelector('.ti-close')
+const contents=document.querySelectorAll('.con')
+function showSetting(){
+	open.classList.add('open')
+	for(const conn of contents){
+		conn.classList.add('content')
+	}
+}
+function closeSetting(){
+	open.classList.remove('open')
+	for(const conn of contents){
+		conn.classList.remove('content')
+	}
+}
+set.addEventListener('click',showSetting)
+close.addEventListener('click',closeSetting)
+
+</script>
+ <script th:inline="javascript">
+        /*<![CDATA[*/
+        function showDeleteAlert() {
+            alert('đã xóa');
+        }
+        /*]]>*/
+    </script>
+</body>
+</html>

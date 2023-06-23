@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>page2_1</title>
+<link rel="stylesheet" href="/icons/themify-icons/themify-icons.css" ></head>
+
+</head>
+<body>
+<style>
+.container {
+  position: relative;
+  width: 95%;
+  min-height: 60vh;
+  border: 1px solid white;
+  overflow: hidden;
+ display: block;
+ 
+}
+
+.panel {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  display: none;
+}
+
+.panel.active {
+  display: block;
+}
+.button{
+color: white;
+height: 30px;
+left:40%;
+position:absolute;
+
+}
+.input{
+
+left: 40%;
+position:absolute;
+height: 30px;
+margin-bottom: 20px;
+}
+.button2{
+background-color: white;
+border-bottom:none;
+border-right:none;
+margin:0px;
+}
+</style>
+<div class="con"  style="    border: 2px solid #6c6060;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px;
+    min-height: 140px;
+    display: inline-block;
+    min-width: 90%;
+    color: red;
+    ">
+
+<h1 class="tieude">IT</h1>
+<h3 class= "tieude">Home  / My course  / THI Cuối kỳ</h3>
+
+
+</div>
+<div style="position: relative;
+  width: 90%;
+  min-height: 500px;
+  
+  border: 1px solid #6c6060;
+  overflow: hidden;
+  margin-left: 20px;
+  padding: 20px;
+  display: block;
+  margin: 20px;
+  ">
+  <div><button onclick="showPanel(1)" class= "button2">Question</button>
+<button onclick="showPanel(2)" class= "button2">Categories</button>
+<button onclick="showPanel(3)" class= "button2">Import</button>
+<button onclick="showPanel(4)" class= "button2">Export</button></div>
+<hr>
+<div class="container">
+  <div class="panel active" id="panel1">
+    <h2 style="color: red;">Question bank</h2>
+    <p>Select a categories:   <select name="ChooseCategory" style="width: 200px; height: 30px;">
+    <option>Default</option>
+    <pre th:each="bank:${list}" >
+     <option th:value="${bank}" th:utext="${bank}">
+    </option>
+    </pre>
+    </select> </p>
+    <p>The default category for question shared in context</p>
+    <p> <input type="checkbox" name="checkbox1" value="" >Also show questions from subcategories</p>
+    <p> <input type="checkbox" name="checkbox2" value="" >Also show old question</p>
+  	<a th:href="@{/page3_2}">
+  	<button style="color: white; background-color:#2d80e0 ; height: 40px; font-size: medium;border-radius: 3px;">CREATE A NEW QUESTION...</button>
+  	</a>
+  </div>
+  <div class="panel" id="panel2">
+    <div> <h2 style="color: red;"><i class="ti-control-play" style="color: blue"></i>Add Categories</h2>
+     Parent category <select id="myComboBox" class="input" style="width: 200px">
+    <option>Default</option>
+   	<pre th:each="bank:${list}" >
+     <option th:value="${bank}" th:utext="${bank}">
+    </option>
+    </pre>
+    </select> </div>
+   <br>
+    <p>Name <input class="input" style="width: 300px"> </p>
+    <br>
+    <p>Category info <textarea rows="12" cols="70" class="input" style="height: 200px" ></textarea>
+    </p>
+    <br><br><br><br><br><br><br><br><br><br>
+    <p>ID number <input class="input" style="width: 100px"> </p>
+    <br>
+  	<a href="#">  <button class="input" style="color: white; background-color: red;">ADD CATEGORY</button> </a>
+  	<br>
+  </div>
+  <div class="panel" id="panel3">
+  	<form method="POST" action="/import" enctype="multipart/form-data">
+    <h2 style="color: red;">Import questions from file</h2>
+    <p style="color: red;"><i class="ti-control-play" style="color: blue"></i> File format <span style="color: black;position: absolute; left:40%">Aiken format</span> </p>
+	<hr style="border-top: 1px solid  #b3a8a8a8">  
+  	<p style="color: red;"><i class="ti-control-play" style="color: blue"></i> General </p>
+  	<br>
+  	<hr style="border-top: 1px solid  #b3a8a8a8"> 
+  	<p >Import  <span style="left:40%;position: absolute;" > <input type="file" name="file"> Maximum size for new files: 100MB </span> 
+ 	</p>
+ 	<div style="position:absolute;border: 1px solid black; left:40%;min-height: 200px; min-width: 400px;">
+ 	<div style="position: absolute; border: 1px dashed black; margin:5%;height: 80%;width: 90%"></div>
+ 	</div>
+ 	<br><br><br><br><br><br><br><br><br><br>
+ 	<p >
+	<input type="submit" value="IMPORT" class="button" style="background-color: red;margin:10px; ">
+	
+	</p>
+	<br><br>
+	
+	<p style="position: absolute;left: 30%;">There are required fields in this form marked .</p>
+	<br>
+    </form>
+  </div>
+  <div class="panel" id="panel4">
+    <h2>Export</h2>
+    <p>Nội dung của Panel 4</p>
+  </div>
+</div>
+
+</div>
+
+
+<script type="text/javascript">
+function showPanel(panelIndex) {
+	  var panels = document.getElementsByClassName("panel");
+	  for (var i = 0; i < panels.length; i++) {
+	    panels[i].classList.remove("active");
+	  }
+	  panels[panelIndex - 1].classList.add("active");
+	}
+
+</script>
+
+</body>
+
+</html>

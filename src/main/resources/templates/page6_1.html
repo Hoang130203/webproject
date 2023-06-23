@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/icons/themify-icons/themify-icons.css" >
+<title>Page6_1</title>
+</head>
+<body>
+<style>
+.tieude{
+color: red;
+margin-left: 30px;
+}
+.container{
+border: 2px solid brown;
+    border-radius: 5px;
+    padding: 3px;
+    margin: 5px;
+    min-height: 500px;
+    display: inline-block;
+    min-width: 95%;
+    margin-left: 25px;
+}
+ table{border:none;
+	padding-left:10%;	
+	padding-right:100px;
+	
+		}
+td,th{
+			padding-right:50px;
+			border: none;
+		}
+tr{
+	height: 30px;
+	border: none;
+}
+.a{
+padding: 4px;
+height: 35px;
+color: white;
+}
+.setting{
+	display:none;
+    border: 1px solid black;
+    background-color: white;
+    padding-right: 4%;
+	min-width:50%;
+    border-radius: 10px;
+}
+.show{
+display:block;
+}
+.opacity{
+opacity: 0.3;
+}
+</style>
+
+
+<div class="con"  style="    border: 2px solid brown;
+    border-radius: 5px;
+    padding: 3px;
+    margin: 5px;
+    min-height: 150px;
+    display: inline-block;
+    min-width: 95%;
+    margin-left: 25px;
+    
+    ">
+
+<h1 class="tieude">IT</h1>
+<h3 class= "tieude" th:text="'Home  / My course  / THI Cuối kỳ/  '+${quizname}"></h3>
+
+</div>
+<div class="container">
+<a th:href="@{/{quiz}/Editquiz(quiz=${quizname})}">
+<button class="ti-settings" style="float: right; margin-right:30px;margin-top:15px;background-color:white;
+   padding:3px; font-size: 30px;color: blue;border:none;"></button>
+</a>
+
+<h1 class="tieude" th:text="${quizname}"></h1>
+<div style="left: 60%;position: absolute;display: block;">
+<pre>
+Time limit: 1 hour
+
+Grading method: Last attempt
+</pre>
+</div>
+<br><br><br><br>
+<h3 class="tieude"style="padding-left: 7%;">Summary of your previous attemps</h3>
+<table>
+        <tr style="background-color: blue;color: white;">
+            <th style="padding-left: 20vw;">Attempt</th>
+            <th style="padding-right: 30vw;">State</th>
+            
+        </tr>
+        <tr>
+            <td style="padding-left: 20vw; background-color: gray;">Preview</td>
+            <td style="padding-right: 30vw;background-color: gray;">Never submitted</td>            
+        </tr>
+       
+    </table>
+    <br>
+<button class="js-action" style="background-color: blue; color: white;position: absolute;left: 60%;height: 30px;margin: 20px;">
+PREVIEW QUIZ NOW
+</button>
+<br><br><br><br><br><br>
+<select style="position: absolute;left:50%;height: 30px;">
+<option>Jump to...</option>
+</select>
+
+
+</div>
+<div style="position: fixed; top: 20%;left: 18%;background-color: white;padding: 2%"  class="setting" >
+	<h1>Start attempt 
+	<i class="ti-close close" style="float:right;margin:10px"></i>
+	
+	</h1>
+	<hr>
+	<br>
+	<div style="margin-left: 5%">
+	<p style="color: red; font-size: large;">Time limt</p>
+	<br>
+<pre>
+Your attempt will have a time limit of 1 hour. When you start, the timer will begin
+to count down and cannot be paused. You must finish your attempt before it
+expires. Are you sure you wish to start now?
+</pre>
+	<hr>
+	</div>
+	<p>
+	<a th:href="@{{quizname}/preview(quizname=${quizname})}" >
+		<button class="a" style="background-color: red;">START ATTEMP</button>
+	
+	</a>
+	<button class="a cancel" style="background-color: blue">CANCEL</button>
+	</p>
+</div>
+<script type="text/javascript">
+const action= document.querySelector('.js-action')
+const sett= document.querySelector('.setting')
+const con= document.querySelector('.con')
+const conn= document.querySelector('.container')
+const cancel= document.querySelector('.cancel')
+function hienthi(){
+	sett.classList.add('show')
+	con.classList.add('opacity')
+	conn.classList.add('opacity')
+}
+action.addEventListener('click',hienthi)
+</script>
+<script type="text/javascript">
+const close= document.querySelector('.close')
+function remo(){
+	sett.classList.remove('show')
+	con.classList.remove('opacity')
+	conn.classList.remove('opacity')
+}
+close.addEventListener('click',remo)
+cancel.addEventListener('click',remo)
+</script>
+</body>
+</html>

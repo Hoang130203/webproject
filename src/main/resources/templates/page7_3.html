@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/icons/themify-icons/themify-icons.css" >
+
+<meta charset="UTF-8">
+<title>Page7_1</title>
+</head>
+<body>
+<style>
+
+.tieude{
+color: red;
+margin-left: 30px;
+}
+.doquiz{
+width: 69%;
+margin: 20px;
+margin-top:0px;
+float:left;
+position: relative;
+border: 1px solid gray;
+min-height:2300px;
+top:0px;
+
+}
+.status{
+width: 23%;
+
+position: fixed;
+left:72%;
+top:208px;
+border: 1px solid gray;
+height:485px;
+}
+.finish{
+cursor: pointer;
+}
+</style>
+<div class="div2" style="margin: 0px;top:0px;min-height:500px;">
+<div style="margin: 0px;top:20px;height: 200px;position:-webkit-sticky;
+    position: sticky;
+    top:0;
+    background-color: white;
+    z-index: 3;
+    box-shadow: 3px 5px #e1c5c538;
+    ">
+<div class="con"  style="    border: 2px solid #6c6060;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px;
+    margin-top:0px;
+    position:-webkit-sticky;
+    position: sticky;
+    top:0;
+    min-height: 100px;
+    display: inline-block;
+    min-width: 91%;
+    color: red;
+    background-color: white;
+    z-index: 4;
+    ">
+
+<h1 class="tieude">IT</h1>
+<h3 class= "tieude" th:text="'Home  / My course  / THI Cuối kỳ/  '+${quizname}"></h3>
+
+</div>
+<div style="border: 1px solid red; width: 100px; height: 25px;position: relative; left: 57%; bottom: 10px;"></div>
+</div>
+
+<div class="doquiz div1">
+
+</div>
+<div class="status">
+<div style="text-align: center;height: 35px;padding-top: 10px;color: red;  border-bottom: 1px solid gray;  background-color: #ebebeb;">Quiz navigation</div>
+<div style="height: 35px; font-size: 20px;"> <i class="ti-user" style="top:10px;margin:15px;position: relative;"></i> </div>
+<div style="margin:7px; height: 390px;display: inline-block;">
+<button th:each="number : ${#numbers.sequence(1, 67)}" style="background-color: #fafbf6;width: 35px;height: 40px;margin-left: 1px;" th:text="${number}"></button>
+</div>
+<div style="bottom: 3px;left: 5px; font-size: 15px; position: absolute;"> <i class="finish">Finish attemp</i> </div>
+</div>
+
+</div>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  var div1 = document.querySelector('.div1');
+  var div2 = document.querySelector('.div2');
+  
+  var div1Height = div1.offsetHeight;
+  var div2Height = div1Height + 20;
+  
+  div2.style.height = div2Height + 'px';
+});
+</script>
+</body>
+</html>

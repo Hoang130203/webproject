@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Page6_3</title>
+<link rel="stylesheet" href="/icons/themify-icons/themify-icons.css" ></head>
+
+</head>
+<body>
+<style>
+ .search{
+  margin-right: 3px;
+  margin-left: 2px;
+  color: blue; font-size: 15px;top:4px;position: relative;float:right;
+  right:3px;
+  z-index: 99;
+  background-color: white;
+  }
+.search:hover{
+	font-size: 20px;
+	top:2px;
+	margin-right: 0px;
+	margin-left: 0px;
+	}
+select{
+width: 200px;
+height: 25px;
+}
+</style>
+<div style="margin: 5%;margin-bottom: 10px;">
+<h2 style="color: red;">Add from the question bank at the end</h2>
+<hr>
+<p>Select a category:&nbsp; 
+<select id="combobox" onchange="getQuestions(this.value)">
+<option value="">Default</option>
+	<pre th:each="bank:${list}" >
+	
+     <option  th:utext="${bank}" th:value="${bank}"  >
+   
+    </option>
+    </pre>
+</select> </p>
+<br><br><br><br><br><br>
+<p style="color:blue;">Search options</p>
+<p><input type="checkbox" id="a"> <label for="a">Also question from subcategories</label>
+</p>
+<p><input type="checkbox" id="b"> <label for="b">Also show old quesions</label>
+ </p>
+<hr>
+<p style="color:blue;">
+&nbsp;
+<input type="checkbox" id="question"> <label for="question">Question</label>
+</p>
+
+<div style="min-height: 300px;" id="questionList" th:fragment="questionList">
+<ol>
+<li th:each="question:${questionList}" style="margin:1px;border: 1px solid gray; height: 25px;width: 100%; overflow: hidden;padding-left: 2px;display: flex;flex-direction: row;">
+
+<i class="ti-plus" style=" flex: 0;color: blue; font-size: 15px;top:3px;position: relative;"></i>
+
+<input type="checkbox" style=" flex: 0;top:0px;position: relative; ">
+<!--  span th:text="${questionIndex.count} " style="position: relative;top:3px; background-color: #ccc9c9;padding-left:5px;padding-right:5px"></span-->
+<i class="ti-menu-alt" style=" flex: 0;font-size: 15px;top:3px;position: relative;"></i>
+
+<a href="#"   style=" flex: auto;text-decoration: none;position: relative;top: 2px;  overflow: hidden;  width: 85%;display: -webkit-inline-box;text-overflow: clip;white-space: nowrap;">
+ 	  <span th:text="${question.getQuestionID()} + ' : ' + ${question.getQuestionContent()} + '   '" >
+      </span>
+      <span th:each="choice : ${question.getListChoice()}" th:text="${choice}+' '" >,</span>
+</a>
+
+<i class="ti-zoom-in search" style=" flex: 0;"></i>
+</li>
+
+</ol>
+</div>
+
+<button style="position: relative ;bottom: 10px; left:7%; background-color: blue; color: white;height: 30px;">
+Add selected questions to the quiz
+</button>
+
+</div>
+<script>
+        function getQuestions(option) {
+            var selectedOption = option.replace(/&#8203;&nbsp;/g, "");
+
+            // Tạo một yêu cầu AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Xử lý phản hồi thành công
+                    // Cập nhật nội dung của phần tử <div> với danh sách câu hỏi
+                    document.getElementById("questionList").innerHTML = xhr.responseText;
+                } else if (xhr.readyState === 4 && xhr.status !== 200) {
+                    // Xử lý khi có lỗi trong quá trình gửi yêu cầu AJAX
+                    console.log(xhr.status);
+                }
+            };
+            
+            // Gửi yêu cầu GET tới một đường dẫn (endpoint) tương ứng
+            xhr.open("GET", "/getQuestions?option=" + selectedOption, true);
+            xhr.send();
+        }
+    </script>
+</body>
+</html> 

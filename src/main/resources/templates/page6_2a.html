@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/icons/themify-icons/themify-icons.css">
+<meta charset="UTF-8">
+<title>Page6_2</title>
+</head>
+<body>
+<style>
+.tieude{
+color: red;
+margin-left: 30px;
+}
+.element{
+height: 30px;
+
+}
+.button{
+height: 30px;
+background-color: blue;
+color: white;
+
+}
+.sub li a{
+color: black;
+height:100%;
+width: 100%;
+
+}
+.sub li{
+width: 150px;
+height: 25px;
+padding-top: 5px;
+padding-left: 5px;
+padding-right: 5px;
+}
+.sub{
+list-style: none;display: none;
+ position: absolute;
+ top: 6px;
+padding: 0px;
+border:1px solid gray;
+z-index: 3;
+background-color: white;
+}
+
+.sub>li:hover>a,
+.sub>li:hover{
+background-color: blue;
+color: white;
+}
+.nav.active .sub {
+    display: block; /* Hiển thị danh sách con khi click */
+  }
+  .search{
+  margin-right: 3px;
+  margin-left: 2px;
+  color: blue; font-size: 15px;top:4px;position: relative;float:right;
+  }
+.search:hover{
+	font-size: 20px;
+	top:2px;
+	margin-right: 0px;
+	margin-left: 0px;
+	}
+</style>
+<div class="con"  style="    border: 2px solid brown;
+    border-radius: 5px;
+    padding: 3px;
+    margin: 5px;
+    min-height: 150px;
+    display: inline-block;
+    min-width: 95%;
+    margin-left: 25px;
+    
+    ">
+
+<h1 class="tieude">IT</h1>
+<h3 class= "tieude" th:text="'Home  / My course  / THI Cuối kỳ/  '+${quiz}+'/ Edit quiz'"></h3>
+
+</div>
+<div style="    border: 2px solid brown;
+    border-radius: 5px;
+    padding: 3px;
+    margin: 5px;
+    min-height: 500px;
+    display: inline-block;
+    min-width: 95%;
+    margin-left: 25px;
+    
+    ">
+<h1 class="tieude" th:text="'Editing quiz: ' +${quiz}"></h1>
+<p class="tieude" style="color: black;">Question: 0| This quiz is open 
+
+<span class="element" style="position: absolute; left:60%; ">Maximum grade <input type="text" value="10.00"> <button class="button">SAVE</button> </span>
+</p>
+<br>
+<p class="tieude">
+<button class="button">REPAGINATE</button>
+<button class="button">SELECT MULTIPLEITEMS</button>
+<span style="float:right; color:black;">Total of marks: 0.00</span>
+</p>
+<div style="background-color: #dbdada;margin-left: 30px;height: 60px">
+<p><i class="ti-pencil" style="color: blue; margin: 15px; font-size: 20px;position: absolute;"></i> <span style="float:right; margin-right: 20px;"><input type="checkbox" id="check"> <label for="check">Shuffle</label> <br> </span> </p>
+<br> <br>
+<div  style= "left:80%;color: blue; position: relative;">
+	<button class="nav"  style="text-decoration: none;">Add</button>
+	<ul class="sub" >
+	  <li > <a href="" style="width: 150px;height: 30px;text-decoration: none;"> <i class="ti-plus"></i>&ensp;a new question</a> </li>
+	  <li> <a th:href="@{/{quiz}/addfrombank(quiz=${quiz})}" style="width: 150px;height: 30px;text-decoration: none;"><i class="ti-plus"></i>&ensp;from question bank</a> </li>
+    <li> <a th:href="@{/{quiz}/addrandomquestion(quiz=${quiz})}" style="width: 150px;height: 30px;text-decoration: none;"><i class="ti-plus"></i>&ensp;a random question</a> </li>
+    </ul>
+</div>
+</div>
+<div style="margin: 2%;margin-left: 0px;min-height: 300px;">
+<ol>
+<li th:each="question, questionIndex :${list}" style="margin:1px;border: 1px solid gray; height: 25px;width: 100%; overflow: hidden;padding-left: 5px;">
+<!--  i class="ti-plus" style="color: blue; font-size: 15px;top:3px;position: relative;"></i>
+
+<input type="checkbox" style="top:3px;position: relative;"-->
+<span th:text="${questionIndex.count} " style="position: relative;top:3px; background-color: #ccc9c9;padding-left:5px;padding-right:5px"></span>
+<i class="ti-menu-alt" style="font-size: 15px;top:3px;position: relative;"></i>
+<a href="#"   style="text-decoration: none;position: relative;top: 2px">
+ 	  <span th:text="${question.getQuestionID()} + ' : ' + ${question.getQuestionContent()} + '   '">
+      </span>
+      <span th:each="choice : ${question.getListChoice()}" th:text="${choice}+' '" >,</span>
+</a>
+<i class="ti-trash search" style="color:red;"></i>
+<i class="ti-zoom-in search" ></i>
+</li>
+
+</ol>
+</div>
+<div style="position: relative; left: 30%; bottom: 10px;"> <select style="height: 30px; width: 200px;">
+<option>Jump to... </option>
+</select> </div>
+</div>
+<script>
+  const navElement = document.querySelector('.nav');
+  const subList = document.querySelector('.sub');
+
+  navElement.addEventListener('click', function() {
+    navElement.classList.toggle('active');
+    subList.style.display = (navElement.classList.contains('active')) ? 'block' : 'none';
+  });
+</script>
+</body>
+</html>

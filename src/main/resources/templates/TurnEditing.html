@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/icons/themify-icons/themify-icons.css">
+</head>
+<body>
+<style>
+.container{
+padding: 10px;
+width: 95%;
+margin-left: 20px;
+border: 1px solid gray;
+border-radius: 2px;
+}
+.button{
+border-radius: 3px;
+height: 35px;
+margin:10px;
+color: white;
+font-size: medium;
+}
+ .time-select {
+      margin-bottom: 10px;
+      }
+</style>
+<div class="container">
+<h1 style="color:red"><i class="ti-ruler-pencil" style="font-size: 20px;"></i>Adding a new Quiz </h1>
+<div>
+<p style="color:red;"><i class="ti-control-play"  style="color: blue;"></i>&nbsp;General</p>
+<p>Name <input type="text" style="position:absolute;left:40%;width: 300px;height: 30px;"></p>
+<p>Description <textarea rows="12" cols="70" style="left:40%;position:absolute;margin-top: 10px;max-width: 50%"></textarea>
+</p>
+<br><br><br><br><br><br><br><br><br>
+<p><input type="checkbox" >Display description on course page </p>
+<hr>
+<p style="color:red;"><i class="ti-control-play"  style="color: blue;"></i>&nbsp;Timing</p>
+<p>Open the quiz
+<span style="position:absolute;left:40%">
+  <span class="time-select" >
+    <label for="day">Ngày:</label>
+    <select class="day"></select>
+  </span>
+
+  <span class="time-select">
+    <label for="month">Tháng:</label>
+    <select class="month"></select>
+  </span>
+	<span class="time-select">
+    <label for="hours">Giờ:</label>
+    <select class="hours"></select>
+  </span>
+
+  <span class="time-select">
+    <label for="minutes">Phút:</label>
+    <select class="minutes"></select>
+  </span>
+</span>
+</p>
+<p>Close the quiz
+<span style="position:absolute;left:40%">
+  <span class="time-select" >
+    <label for="day">Ngày:</label>
+    <select class="day"></select>
+  </span>
+
+  <span class="time-select">
+    <label for="month">Tháng:</label>
+    <select class="month"></select>
+  </span>
+	<span class="time-select">
+    <label for="hours">Giờ:</label>
+    <select class="hours"></select>
+  </span>
+
+  <span class="time-select">
+    <label for="minutes">Phút:</label>
+    <select class="minutes"></select>
+  </span>
+</span>
+</p>
+<p>Time limit</p>
+<p>When time expires</p>
+
+<p>
+<button class="button" style="background-color: blue;">CREATE</button>
+<a th:href="@{/}"><button class="button" style="background-color: red;">CANCEL</button></a>
+
+</p>
+</div>
+</div>
+<script type="text/javascript">
+	function updateSelectValues() {
+		  var now = new Date();
+		  var hours = now.getHours();
+		  var minutes = now.getMinutes();
+		  var day = now.getDate();
+		  var month = now.getMonth() + 1;
+	
+		  var hoursSelect = document.getElementsByClassName('hours');
+		  for (var i = 0; i < hoursSelect.length; i++) {
+		    hoursSelect[i].value = hours;
+		  }
+
+		  var minutesSelect = document.getElementsByClassName('minutes');
+		  for (var i = 0; i < minutesSelect.length; i++) {
+		    minutesSelect[i].value = minutes;
+		  }
+
+		  var daySelect = document.getElementsByClassName('day');
+		  for (var i = 0; i < daySelect.length; i++) {
+		    daySelect[i].value = day;
+		  }
+
+		  var monthSelect = document.getElementsByClassName('month');
+		  for (var i = 0; i < monthSelect.length; i++) {
+		    monthSelect[i].value = month;
+		  }
+		}
+
+	// Cập nhật giá trị combobox mỗi giây
+	setInterval(updateSelectValues, 1000);
+
+	// Cập nhật giá trị combobox ngay lập tức khi trang được tải
+	updateSelectValues();
+	//Tạo combobox chọn giờ
+	var hoursSelect = document.getElementsByClassName('hours');
+	for (var i = 0; i < hoursSelect.length; i++) {
+	  for (var j = 0; j < 24; j++) {
+	    var option = document.createElement('option');
+	    option.value = j;
+	    option.textContent = j.toString().padStart(2, '0');
+	    hoursSelect[i].appendChild(option);
+	  }
+	}
+	// Tạo combobox chọn phút
+	var minutesSelect = document.getElementsByClassName('minutes');
+	for (var i = 0; i < minutesSelect.length; i++) {
+	  for (var j = 0; j < 60; j++) {
+	    var option = document.createElement('option');
+	    option.value = j;
+	    option.textContent = j.toString().padStart(2, '0');
+	    minutesSelect[i].appendChild(option);
+	  }
+	}
+
+	// Tạo combobox chọn ngày
+	var daySelect = document.getElementsByClassName('day');
+	for (var i = 0; i < daySelect.length; i++) {
+	  for (var j = 1; j <= 31; j++) {
+	    var option = document.createElement('option');
+	    option.value = j;
+	    option.textContent = j;
+	    daySelect[i].appendChild(option);
+	  }
+	}
+
+	// Tạo combobox chọn tháng
+	var monthSelect = document.getElementsByClassName('month');
+	for (var i = 0; i < monthSelect.length; i++) {
+	  for (var j = 1; j <= 12; j++) {
+	    var option = document.createElement('option');
+	    option.value = j;
+	    option.textContent = j.toString().padStart(2, '0');
+	    monthSelect[i].appendChild(option);
+	  }
+	}
+	
+
+</script>
+</body>
+</html>
