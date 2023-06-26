@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.project.BEAN.Question;
+import com.example.project.BEAN.Quiz;
 
 public class QuizService {
 	public static List<Question> listQuestion(Connection conn,String quiz){
 		List<Question> list= new ArrayList<>();
-		String sql="select qu.* from question qu join service where service.quizname='"+quiz+"' and service.idquestionl=qu.idquestion ";
+		String sql="select qu.* from question qu join service where service.quizname='"+quiz+"' and service.idquestion=qu.idquestion ";
 		try {
 			PreparedStatement ptmt= conn.prepareStatement(sql);
 			ResultSet rs= ptmt.executeQuery(sql);
@@ -28,6 +29,34 @@ public class QuizService {
 				String ans= rs.getString("answer");
 				Question question= new Question(id, content, choices, ans);
 				list.add(question);
+				
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return list;
+		
+	}
+	public static void addQuiz(Connection conn, Quiz quiz) {
+		String sql= "insert into quiz values('"+quiz.getQuizName()+"')";
+		try {
+			PreparedStatement ptmt= conn.prepareStatement(sql);
+			ptmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+	public static List<Quiz> listQuiz(Connection conn){
+		List<Quiz> list= new ArrayList<>();
+		String sql="select * from quiz";
+		try {
+			PreparedStatement ptmt= conn.prepareStatement(sql);
+			ResultSet rs= ptmt.executeQuery();
+			while(rs.next()) {
+				Quiz quiz= new Quiz(rs.getString("quizname"));
+				list.add(quiz);
 				
 			}
 		} catch (Exception e) {

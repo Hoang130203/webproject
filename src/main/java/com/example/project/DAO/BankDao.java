@@ -30,6 +30,28 @@ public class BankDao {
 		}
 		return list;
 	}
+	public static void addBank(Connection conn,Bank bank) {
+		if(bank.getParent()==null || bank.getParent().isEmpty()) {
+			String sql="insert into bank values('"+bank.getBankName()+"',null)";
+			try {
+				PreparedStatement ptmt = conn.prepareStatement(sql);
+				
+				ptmt.executeUpdate();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}else {
+			String sql="insert into bank values('"+bank.getBankName()+"','"+bank.getParent()+"')";
+			try {
+				PreparedStatement ptmt = conn.prepareStatement(sql);
+				
+				ptmt.executeUpdate();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		
+	}
 	public static List<String> DisplayBank(Connection conn)
 	{
 		List<String> listS= new ArrayList<String>();
@@ -121,4 +143,5 @@ public class BankDao {
 		
 		return list;
 	}
+	
 }
