@@ -50,19 +50,19 @@ public class Export {
 		}
 		for(Question ques:QuizService.listQuestion(conn, quiz.getQuizName()))
 		{
-			s=s+ques.getQuestionID()+": "+ques.getQuestionContent()+"\n";
+			s=s+ques.getQuestionID()+": "+ques.getQuestionContent().replaceAll("<br>", "\n")+"\n";
 			for(String choice:ques.getListChoice())
 			{
 				s=s+choice+"\n";
 			}
 			s=s+"\n";
 			try {
-				String path="D:\\"+name+".pdf"; 
+				String path = "D:\\"+name+".pdf"; 
 				Document doc = new Document();
 				
 				PdfWriter.getInstance(doc, new FileOutputStream(path));
 				doc.open();
-				BaseFont bf = BaseFont.createFont("UVNThoiNay_I.TTF", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+				BaseFont bf = BaseFont.createFont("src/main/resources/static/font/UVNTinTuc_R.TTF", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 				Font font = new Font(bf, 12f, Font.NORMAL, BaseColor.BLACK);
 				Paragraph para = new Paragraph();
 				para.setFont(font);
@@ -101,7 +101,7 @@ public class Export {
 		}
 		for(Question ques:QuizService.listQuestion(conn, quiz.getQuizName()))
 		{
-			s=s+ques.getQuestionID()+": "+ques.getQuestionContent()+"\n";
+			s=s+ques.getQuestionID()+": "+ques.getQuestionContent().replaceAll("<br>", "\n")+"\n";
 			for(String choice:ques.getListChoice())
 			{
 				s=s+choice+"\n";
@@ -116,7 +116,7 @@ public class Export {
 			                  PdfWriter.ALLOW_PRINTING, 
 			                   PdfWriter.ENCRYPTION_AES_256);
 				doc.open();
-				BaseFont bf = BaseFont.createFont("UVNThoiNay_I.TTF", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+				BaseFont bf = BaseFont.createFont("src/main/resources/static/font/UVNTinTuc_R.TTF", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 				Font font = new Font(bf, 12f, Font.NORMAL, BaseColor.BLACK);
 				Paragraph para = new Paragraph();
 				para.setFont(font);

@@ -349,6 +349,58 @@ public static void savequestion(Connection conn,Question question,String bank) t
 			// TODO: handle exception
 		}
 	}
+	public static void addRandomQWithSubCate(int number,String quiz,String bank) {
+		List<Question> list= BankDao.getListWithSubCate(bank);
+		List<Question> subrandom= new ArrayList<>();
+		
+		
+		try {
+			if(list.size()>number) {
+				subrandom=getRandomElements(list, number);
+				for(Question q:subrandom) {
+					Quiz_QuestionService.addQuestion(quiz, q.getQuestionID());
+				}
+			}else {
+				subrandom=getRandomElements(list, list.size());
+				for(Question q:subrandom) {
+					Quiz_QuestionService.addQuestion(quiz, q.getQuestionID());
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	public static List<Question> getRandomElements(List<Question> originalList, int numElements) {
+        List<Question> randomElements = new ArrayList<>();
+
+        // Sao chép danh sách gốc để không làm thay đổi danh sách ban đầu
+        List<Question> tempList = new ArrayList<>(originalList);
+
+        // Sử dụng đối tượng Random để sinh số ngẫu nhiên
+        Random random = new Random();
+
+        // Lấy ra numElements phần tử ngẫu nhiên từ danh sách gốc
+        for (int i = 0; i < numElements; i++) {
+            // Kiểm tra nếu danh sách tạm thời rỗng, thoát khỏi vòng lặp
+            if (tempList.isEmpty()) {
+                break;
+            }
+
+            // Sinh ra một chỉ số ngẫu nhiên từ 0 đến kích thước danh sách tạm thời - 1
+            int randomIndex = random.nextInt(tempList.size());
+
+            // Lấy phần tử tại chỉ số ngẫu nhiên từ danh sách tạm thời
+            Question randomElement = tempList.get(randomIndex);
+
+            // Thêm phần tử vào danh sách kết quả
+            randomElements.add(randomElement);
+
+            // Loại bỏ phần tử đã được chọn ra khỏi danh sách tạm thời
+            tempList.remove(randomIndex);
+        }
+
+        return randomElements;
+    }
 	public static Question searchQuestion(String name) {
 		
 		Question question = null;

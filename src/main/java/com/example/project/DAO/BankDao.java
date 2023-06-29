@@ -220,5 +220,78 @@ public class BankDao {
 		
 		return list;
 	}
-	
+	public static List<Question> getListWithSubCate(String bank){
+		List<Question> listQ= new ArrayList<Question>();
+		List<Bank> list = new ArrayList<Bank>();
+		String sql = "select * from bank";
+		try 
+		{
+			Connection conn= DBConnection.CreateConnection();
+			PreparedStatement ptmt = conn.prepareStatement(sql);
+			
+			ResultSet rs = ptmt.executeQuery();
+			
+			while (rs.next())
+			{
+				Bank banks = new Bank(rs.getString("bankname"),rs.getString("parent"));
+				list.add(banks);
+			}
+			
+			Map<String, Bank> bankMap = new HashMap<>();
+	        for (Bank banks : list) {
+	            bankMap.put(banks.getBankName(), banks);
+	        }
+			List<Bank> treeList = new ArrayList<>();
+			
+	        for (Bank banks : list) {
+	            String parentName = banks.getParent();
+	            if (parentName == null || parentName=="") {
+	                treeList.add(banks); // Gốc cây
+	            } else {
+	                Bank parentBank = bankMap.get(parentName);
+	                parentBank.addChild(banks);
+	            }
+	            
+	        }
+	        for(Bank banks:list) {
+	        	if(banks.getBankName().equals(bank)) {
+	        		listQ= questionTree(banks);
+	            }
+	        }
+	        // In cây danh sách
+	        
+			//for(Bank banks:list) {
+		//		System.out.println(banks.getBankName()+" "+banks.getChildren().size());
+			//}
+			
+		} 
+		catch (SQLException e) 
+		{
+
+
+			e.printStackTrace();
+		}
+		System.out.println(listQ.size());
+		return listQ;
+	}
+	public static List<Question> questionTree(Bank bank){
+
+		List<Question> list= new ArrayList<>();
+		try {
+			Connection conn= DBConnection.CreateConnection();		
+			list=listQuestion(conn, bank.getBankName());
+			 if (!bank.getChildren().isEmpty()) {
+		            for (Bank subBank : bank.getChildren()) {
+		                
+		                List<Question> subList = questionTree(subBank);
+		                list.addAll(subList);
+		            }
+		        }
+			conn.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return list;
+	}
 }

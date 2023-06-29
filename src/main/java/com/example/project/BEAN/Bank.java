@@ -16,6 +16,9 @@ public class Bank {
 	public List<Bank> getChildren() {
         return children;
     }
+	public void setChildren(List<Bank> list) {
+        this.children=list;
+    }
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
 	}

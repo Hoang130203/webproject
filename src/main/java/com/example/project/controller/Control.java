@@ -448,50 +448,90 @@ public class Control {
 	@GetMapping("/getquestion6_5")
 	public String page6_5Request(@RequestParam("option") String bank,
 	                             @RequestParam(value = "page", required = false) Integer page,
+	                             @RequestParam("check") Integer check,
 	                             Model model) {
 	    List<Question> listQuestion = new ArrayList<>();
-
-	    try {
-	        Connection conn = DBConnection.CreateConnection();
-	        if (conn != null) {
-	            listQuestion = BankDao.listQuestion(conn, bank);
-	           
-	            
-	            // Phân trang
-	            int pageSize = 10; // Số câu hỏi trên mỗi trang
-	            int totalPages = (int) Math.ceil((double) listQuestion.size() / pageSize);
-
-	            if (page == null || page < 1  ) {
-	                page = 1; // Trang mặc định
-	            }else if(page > totalPages) {
-	            	 page= totalPages;
-	            }
-
-	            int startIndex = (page - 1) * pageSize;
-	            int endIndex = Math.min(startIndex + pageSize, listQuestion.size());
-	            List<Question> paginatedList = listQuestion.subList(startIndex, endIndex);
-	       //     List<Question> paginatedList = listQuestion.subList(0,Math.min(0 + pageSize, listQuestion.size()));
-	            model.addAttribute("questionList", paginatedList);
-	            
-	            model.addAttribute("currentPage", page.toString());
-	            model.addAttribute("totalPages", totalPages);
-	        }
-	    } catch (Exception e) {
-	        // Xử lý ngoại lệ
+	   
+	    if(check==0) {
+	    	
+	    	try {
+	    		Connection conn = DBConnection.CreateConnection();
+	    		if (conn != null) {
+	    			listQuestion = BankDao.listQuestion(conn, bank);
+	    			
+	    			
+	    			// Phân trang
+	    			int pageSize = 10; // Số câu hỏi trên mỗi trang
+	    			int totalPages = (int) Math.ceil((double) listQuestion.size() / pageSize);
+	    			
+	    			if (page == null || page < 1  ) {
+	    				page = 1; // Trang mặc định
+	    			}else if(page > totalPages) {
+	    				page= totalPages;
+	    			}
+	    			
+	    			int startIndex = (page - 1) * pageSize;
+	    			int endIndex = Math.min(startIndex + pageSize, listQuestion.size());
+	    			List<Question> paginatedList = listQuestion.subList(startIndex, endIndex);
+	    			//     List<Question> paginatedList = listQuestion.subList(0,Math.min(0 + pageSize, listQuestion.size()));
+	    			model.addAttribute("questionList", paginatedList);
+	    			
+	    			model.addAttribute("currentPage", page.toString());
+	    			model.addAttribute("totalPages", totalPages);
+	    		}
+	    	} catch (Exception e) {
+	    		// Xử lý ngoại lệ
+	    	}
+	    }else {
+	    	try {
+	    		Connection conn = DBConnection.CreateConnection();
+	    		if (conn != null) {
+	    			listQuestion =  BankDao.getListWithSubCate(bank);
+	    			
+	    			
+	    			// Phân trang
+	    			int pageSize = 10; // Số câu hỏi trên mỗi trang
+	    			int totalPages = (int) Math.ceil((double) listQuestion.size() / pageSize);
+	    			
+	    			if (page == null || page < 1  ) {
+	    				page = 1; // Trang mặc định
+	    			}else if(page > totalPages) {
+	    				page= totalPages;
+	    			}
+	    			
+	    			int startIndex = (page - 1) * pageSize;
+	    			int endIndex = Math.min(startIndex + pageSize, listQuestion.size());
+	    			List<Question> paginatedList = listQuestion.subList(startIndex, endIndex);
+	    			//     List<Question> paginatedList = listQuestion.subList(0,Math.min(0 + pageSize, listQuestion.size()));
+	    			model.addAttribute("questionList", paginatedList);
+	    			
+	    			model.addAttribute("currentPage", page.toString());
+	    			model.addAttribute("totalPages", totalPages);
+	    		}
+	    	} catch (Exception e) {
+	    		// Xử lý ngoại lệ
+	    	}
 	    }
+	    	
+	    
 	    
 	    return "page6_5 :: questionList";
 	}
 
 	@PostMapping("/{quiz}/addquestion6_5")
 	public String addquestion6_5(@RequestParam("number") String number,@RequestParam("quiz")String quiz,
-							@RequestParam("bankk") String bank,RedirectAttributes model)
+							@RequestParam("bankk") String bank,
+							@RequestParam("checkk") Integer check,
+							RedirectAttributes model)
 	{
-		System.out.println(quiz);
-		System.out.println(bank);
-		System.out.println(number);
-		QuestionService.addrandomquestion(Integer.parseInt(number), quiz, bank);
-		model.addFlashAttribute("message", "đã thêm ngẫu nhiên 1 số câu hỏi vào bài thi");
+		if(check==0) {
+			
+			QuestionService.addrandomquestion(Integer.parseInt(number), quiz, bank);
+			model.addFlashAttribute("message", "đã thêm ngẫu nhiên 1 số câu hỏi vào bài thi(không bao gồm cây con)");
+		}else {
+			QuestionService.addRandomQWithSubCate(Integer.parseInt(number), quiz, bank);
+			model.addFlashAttribute("message",  "đã thêm ngẫu nhiên 1 số câu hỏi vào bài thi(bao gồm cây con)");
+		}
 		return "redirect:/{quiz}/Editquiz";
 	}
 
