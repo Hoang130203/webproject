@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.example.project.BEAN.Question;
 import com.example.project.BEAN.Quiz;
+import com.example.project.DB.DBConnection;
 
 public class QuizService {
 	public static List<Question> listQuestion(Connection conn,String quiz){
@@ -65,5 +66,19 @@ public class QuizService {
 		
 		return list;
 		
+	}
+	public static void deleteQuestionInQuiz(String quiz,String question) {
+		String sql="SET FOREIGN_KEY_CHECKS = 0;";
+		String sql1="delete from service where quizname='"+quiz+"' and idquestion='"+question+"';";
+		try {
+			Connection conn= DBConnection.CreateConnection();
+			PreparedStatement ptmt= conn.prepareStatement(sql);
+			ptmt.executeUpdate();
+			ptmt=conn.prepareStatement(sql1);
+			ptmt.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 }

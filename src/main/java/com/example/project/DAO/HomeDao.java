@@ -45,15 +45,17 @@ public class HomeDao {
 	public static void DeleteQuiz (Connection conn,String quiz)
 	{
 		
-		
-		
-		String sql="delete from quiz where quizname='"+quiz+"'";		
+		String sql1="SET FOREIGN_KEY_CHECKS = 0;";
+		String sql2="delete from service where quizname='"+quiz+"'";
+		String sql="delete from quiz where quizname='"+quiz+"';";		
 		try 
 		{
-			PreparedStatement ptmt = conn.prepareStatement(sql);
-			
+			PreparedStatement ptmt = conn.prepareStatement(sql1);
 			ptmt.executeUpdate();
-		
+			ptmt = conn.prepareStatement(sql);
+			ptmt.executeUpdate();
+			ptmt = conn.prepareStatement(sql2);
+			ptmt.executeUpdate();
 			
 			
 			

@@ -29,18 +29,19 @@
 <p style="border-top:1px solid gray; border-left: 1px solid gray; width: 150px;height: 22px;padding: 3px;">Exiting category</p>
 <div style="margin-left: 3%">
 <p>Category 
-<select id="cate" onclick="showlist(this.value,1)" style="position: relative;margin-left:20%;width: 200px;height: 30px">
+<select  id="cate" onclick="showlist(this.value,1)" style="position: relative;margin-left:20%;width: 200px;height: 30px">
 <option >Default</option>
-<option  th:each="bank:${list}" th:utext="${bank}" th:value="${bank}"></option>
+<option  th:each="bank,number:${list}" th:utext="${bank}+ ' ('+${numberquestion.get(number.count-1)}+')'"  th:value="${bank}"></option>
 </select> </p>
 <p style="position: absolute; left:30%;">
 <input type="checkbox" id="checkbox" > <label for="checkbox" >Include questions from subcategories too</label>
 </p>
 </div>
 <br><br><br><br>
+
 <p >Number of random questions 
-<select id="numberrandom" onclick="addi()" style="position: absolute; margin-left:11%;">
-<option th:each="number : ${#numbers.sequence(1, 67)}" th:utext="${number}" ></option>
+<select id="numberrandom" onclick="addi()" style="position: absolute; margin-left:11%;" >
+<option  th:each="number : ${#numbers.sequence(1, 20)}" th:utext="${number}" ></option>
 </select>
  </p>
  <br>
@@ -83,10 +84,10 @@
   
   
 </div>
- 
+
 
 </div>
-<form action="/addquestion6_5" method="post"> 
+<form th:action="@{/{quiz}/addquestion6_5(quiz=${quiz})}" method="post"> 
  <input id="number" name="number" type="hidden" value="">
  <input type="hidden" name="quiz" th:value="${quiz}">
  <input id="bankk" type="hidden" name="bankk" value="">
@@ -105,7 +106,9 @@ alert("iphjioh");
 </div>
 <script type="text/javascript">
 	function showlist(option,page){
-		
+		document.getElementById("bankk").value= document.getElementById("cate").value.replaceAll(/&#8203;&nbsp;/g, "")
+		   
+		document.getElementById("number").value = document.getElementById("numberrandom").value
 		option=option.replaceAll(/&#8203;&nbsp;/g, "");
 		document.getElementById("number").value = document.getElementById("numberrandom").value
 		var xhttp= new XMLHttpRequest()
@@ -140,7 +143,9 @@ alert("iphjioh");
 		    document.getElementById("bankk").value= document.getElementById("cate").value.replaceAll(/&#8203;&nbsp;/g, "")
 		   
 			document.getElementById("number").value = document.getElementById("numberrandom").value
+			
 	}
+	
 </script>
 </body>
 </html>

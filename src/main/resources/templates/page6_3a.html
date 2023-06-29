@@ -34,9 +34,9 @@ height: 25px;
 <p>Select a category:&nbsp; 
 <select id="combobox" onchange="getQuestions(this.value)">
 <option value="">Default</option>
-	<pre th:each="bank:${list}" >
+	<pre th:each="bank,number:${list}" >
 	
-     <option  th:utext="${bank}" th:value="${bank}"  >
+     <option  th:utext="${bank}+ ' ('+${numberquestion.get(number.count-1)}+')'" th:value="${bank}"  >
    
     </option>
     </pre>
@@ -74,7 +74,7 @@ height: 25px;
 
 </ol>
 </div>
- <form id="sendForm" method="POST" th:action="@{/processQuestions}">
+ <form id="sendForm" method="POST" th:action="@{/{quiz}/processQuestions(quiz=${quiz})}">
     <input type="hidden" name="selectedQuestions" id="selectedQuestionsInput">
     <input type="hidden" th:value="${quiz}" name="quiz">
 	<button id="sendButton"  style="position: relative ;bottom: 10px; left:7%; background-color: blue; color: white;height: 30px;">
@@ -83,6 +83,8 @@ height: 25px;
 
   </form>
 </div>
+
+
 <script>
         function getQuestions(option) {
             var selectedOption = option.replaceAll(/&#8203;&nbsp;/g, "");

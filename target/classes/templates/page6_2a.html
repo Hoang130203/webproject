@@ -120,12 +120,14 @@ color: white;
 <input type="checkbox" style="top:3px;position: relative;"-->
 <span th:text="${questionIndex.count} " style="position: relative;top:3px; background-color: #ccc9c9;padding-left:5px;padding-right:5px;flex: 0;"></span>
 <i class="ti-menu-alt" style="font-size: 15px;top:3px;position: relative;flex: 0;"></i>
-<a href="#"   style="text-decoration: none;position: relative;top: 2px; overflow: hidden;  width: 85%;display: -webkit-inline-box;text-overflow: clip;white-space: nowrap;flex:auto;">
+<a th:href="@{/{ques}/edit(ques=${question.getQuestionID})}"   style="text-decoration: none;position: relative;top: 2px; overflow: hidden;  width: 85%;display: -webkit-inline-box;text-overflow: clip;white-space: nowrap;flex:auto;">
  	  <span th:text="${question.getQuestionID()} + ' : ' + ${question.getQuestionContent()} + '   '">
       </span>
       <span th:each="choice : ${question.getListChoice()}" th:text="${choice}+' '" ></span>
 </a>
+<a th:href="@{/{quiz}/{question}/delete(quiz=${quiz},question=${question.getQuestionID()})}">
 <i class="ti-trash search" style="color:red;flex: 0"></i>
+</a>
 <i class="ti-zoom-in search" style="flex: 0"></i>
 </li>
 
@@ -135,6 +137,13 @@ color: white;
 <option>Jump to... </option>
 </select> </div>
 </div>
+<div style="display:none;" th:text="${message}" id="mess"></div>
+<script type="text/javascript">
+//var mess=document.getElementById('mess').innerHTML;
+//if(mess.length>0){
+//	alert(mess)
+//}
+</script>
 <script>
   const navElement = document.querySelector('.nav');
   const subList = document.querySelector('.sub');

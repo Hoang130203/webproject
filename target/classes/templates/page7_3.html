@@ -59,8 +59,7 @@ border-radius:2px;
 .nop{
 display: inline-block;
 }
-.close{
-}
+
 .close:hover{
 font-size: 20px;
 }
@@ -107,7 +106,7 @@ font-size: 20px;
 		<p>Flag question</p>
 	</div>
 	<div style="width:80%;min-height:250px;margin-left: 10px;border: 1px solid #cce9e6;padding-top:5px;padding-left: 15px;background-color: #e7f3f5;">
-		<p th:text="${question.getQuestionID()}+': '+${question.getQuestionContent()}"></p>
+		<p th:utext="${question.getQuestionID()}+': '+${question.getQuestionContent()}"></p>
 			<div th:each="choice : ${question.getListChoice}"style="margin-left: 5%;margin-right: 5%;">
 			  <label>
 			    <input onchange="buttonaction(this.getAttribute('value'))" th:value="${index.count}" type="radio" th:name="${question.getQuestionID}" style="display: inline; vertical-align: middle;">

@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 
 public class QuestionService {
-	public static ArrayList<Question> format(String text){
+	public static ArrayList<Question> format(String text) throws StringIndexOutOfBoundsException,Exception{
 
 	      ArrayList<Question> questions = new ArrayList<>();
 	      Scanner scanner= new Scanner(text);
@@ -48,27 +48,52 @@ public class QuestionService {
 	    int demdong=0;
 	    String loi= "Error at: ";
       for(String qs: q) {
+    	  
       	Scanner sc= new Scanner(qs);
+      	
       	String line= sc.nextLine();
       	demdong++;
-      	String name= line.substring(0,line.indexOf(':'));
-      	String cauHoi= line.substring(line.indexOf(':')+1).trim();
+      	String name;
+      	String cauHoi;
+      	if(line.indexOf(':')>0) {
+      		name= line.substring(0,line.indexOf(':'));
+      		cauHoi= line.substring(line.indexOf(':')+1).trim();
+      		
+      	}else {
+      		name= null;
+      		cauHoi= line.trim();
+      	}
       	line=sc.nextLine();
       	demdong++;
-      	while(line.trim().charAt(0)!='A' && line.trim().charAt(0)!='a'
+      	while(line.isEmpty() ||line.isBlank()) {
+    		demdong++;
+    		line=sc.nextLine();
+    	}
+      	while((line.trim().charAt(0)!='A' && line.trim().charAt(0)!='a'
       			&&line.trim().charAt(0)!='B' && line.trim().charAt(0)!='b'
 	    					  &&line.trim().charAt(0)!='C' && line.trim().charAt(0)!='c'
 	    					  &&line.trim().charAt(0)!='D' && line.trim().charAt(0)!='d'
-	    					  &&line.trim().charAt(0)!='E' && line.trim().charAt(0)!='e') {
-      		cauHoi=cauHoi+"<br>"+line;
-      		line=sc.nextLine();
-      		demdong++;
+	    					  &&line.trim().charAt(0)!='E' && line.trim().charAt(0)!='e')||(line.trim().charAt(1)!='.')) {
+      		if(line.trim().isEmpty()) {
+      			demdong++;
+      			sc.nextLine();
+      		}else {
+      			cauHoi=cauHoi+"<br>"+line;
+          		line=sc.nextLine();
+          		demdong++;
+      		}
+      		
       	}
       	ArrayList<String> choices= new ArrayList<>();
-      	while(!line.equalsIgnoreCase("ANSWER: A") &&!line.equalsIgnoreCase("ANSWER: B") &&!line.equalsIgnoreCase("ANSWER: C") 
-	    			  &&!line.equalsIgnoreCase("ANSWER: D") &&!line.equalsIgnoreCase("ANSWER: E") ){
-      		choices.add(line);
-      		line= sc.nextLine();
+      	while(!line.trim().equalsIgnoreCase("ANSWER: A") &&!line.trim().equalsIgnoreCase("ANSWER: B") &&!line.trim().equalsIgnoreCase("ANSWER: C") 
+	    			  &&!line.trim().equalsIgnoreCase("ANSWER: D") &&!line.trim().equalsIgnoreCase("ANSWER: E") ){
+      		if(!line.isEmpty()) {
+      			choices.add(line.trim());
+          		line= sc.nextLine();
+      		}else {
+      			line= sc.nextLine();
+      		}
+      		
       		demdong++;
       	}
       	String answer= line;
@@ -89,7 +114,7 @@ public class QuestionService {
       scanner.close();
       return questions;
   }
-	public static String loi(String text){
+	public static String loi(String text) throws StringIndexOutOfBoundsException,Exception{
 
 	      ArrayList<Question> questions = new ArrayList<>();
 	      Scanner scanner= new Scanner(text);
@@ -124,24 +149,47 @@ public class QuestionService {
     	Scanner sc= new Scanner(qs);
     	String line= sc.nextLine();
     	demdong++;
-    	String name= line.substring(0,line.indexOf(':'));
-    	String cauHoi= line.substring(line.indexOf(':')+1).trim();
+    	String name;
+      	String cauHoi;
+      	if(line.indexOf(':')>0) {
+      		name= line.substring(0,line.indexOf(':'));
+      		cauHoi= line.substring(line.indexOf(':')+1).trim();
+      		
+      	}else {
+      		name= null;
+      		cauHoi= line.trim();
+      	}
     	line=sc.nextLine();
     	demdong++;
-    	while(line.trim().charAt(0)!='A' && line.trim().charAt(0)!='a'
+    	while(line.isEmpty() ||line.isBlank()) {
+    		demdong++;
+    		line=sc.nextLine();
+    	}
+    	while((line.trim().charAt(0)!='A' && line.trim().charAt(0)!='a'
     			&&line.trim().charAt(0)!='B' && line.trim().charAt(0)!='b'
 	    					  &&line.trim().charAt(0)!='C' && line.trim().charAt(0)!='c'
 	    					  &&line.trim().charAt(0)!='D' && line.trim().charAt(0)!='d'
-	    					  &&line.trim().charAt(0)!='E' && line.trim().charAt(0)!='e') {
-    		cauHoi=cauHoi+"<br>"+line;
-    		line=sc.nextLine();
+	    					  &&line.trim().charAt(0)!='E' && line.trim().charAt(0)!='e')||(line.trim().charAt(1)!='.')) {
+    		if(line.trim().isEmpty()) {
+      		
+      			sc.nextLine();
+      		}else {
+      			cauHoi=cauHoi+"<br>"+line;
+          		line=sc.nextLine();
+          		
+      		}
     		demdong++;
     	}
     	ArrayList<String> choices= new ArrayList<>();
-    	while(!line.equalsIgnoreCase("ANSWER: A") &&!line.equalsIgnoreCase("ANSWER: B") &&!line.equalsIgnoreCase("ANSWER: C") 
-	    			  &&!line.equalsIgnoreCase("ANSWER: D") &&!line.equalsIgnoreCase("ANSWER: E") ){
-    		choices.add(line);
-    		line= sc.nextLine();
+    	while(!line.trim().equalsIgnoreCase("ANSWER: A") &&!line.trim().equalsIgnoreCase("ANSWER: B") &&!line.trim().equalsIgnoreCase("ANSWER: C") 
+	    			  &&!line.trim().equalsIgnoreCase("ANSWER: D") &&!line.trim().equalsIgnoreCase("ANSWER: E") ){
+    		if(!line.isEmpty()) {
+      			choices.add(line.trim());
+          		line= sc.nextLine();
+      		}else {
+      			line= sc.nextLine();
+      		}
+      		
     		demdong++;
     	}
     	String answer= line;
@@ -174,7 +222,7 @@ public static void savequestion(Connection conn,Question question,String bank) t
 
                	 
                	String sql = "INSERT INTO question VALUES(?,?,?,?,?,?,?,?)";
-               	
+               	String sql1="insert into bank_question values('"+bank+"','"+question.getQuestionID()+"');";
                	 try {
                  	
                    	PreparedStatement ptmt = conn.prepareStatement(sql);
@@ -200,7 +248,8 @@ public static void savequestion(Connection conn,Question question,String bank) t
                    	
                    	ptmt.setString(8, question.getAnswer());
                    	ptmt.executeUpdate();
-                   	System.out.println(sql);
+                   	ptmt= conn.prepareStatement(sql1);
+                   	ptmt.executeUpdate();
     				
     				
     				
@@ -215,7 +264,7 @@ public static void savequestion(Connection conn,Question question,String bank) t
 		}
 		
 	}
-	public static String saveQuestion(Connection conn,ArrayList<Question> listquestion,String text) throws SQLException{
+	public static String saveQuestion(Connection conn,ArrayList<Question> listquestion,String text) throws StringIndexOutOfBoundsException, Exception{
 		
 		
 		try {
@@ -299,5 +348,69 @@ public static void savequestion(Connection conn,Question question,String bank) t
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+	public static Question searchQuestion(String name) {
+		
+		Question question = null;
+		try {
+			Connection conn= DBConnection.CreateConnection();
+			String sql= "select * from question where idquestion='"+name+"';";
+			PreparedStatement ptmt= conn.prepareStatement(sql);
+			ResultSet rs=ptmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				ArrayList<String> listchoice= new ArrayList<>();
+				if(rs.getString("idquestion").equals(name)) {
+					
+					for(int i=3;i<=7;i++) {
+						if(rs.getString(i)!=null && !rs.getString(i).isBlank())
+						 listchoice.add(rs.getString(i));
+							
+					}
+					question= new Question(rs.getString(1), rs.getString(2), listchoice, rs.getString(8));
+				
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return question;
+	}
+	public static void removequestion(String question) {
+		try {
+			Connection conn= DBConnection.CreateConnection();
+			String sql= "SET FOREIGN_KEY_CHECKS = 0;";
+			String sql1="delete from question where question.idquestion='"+question+"';";
+			PreparedStatement ptmt= conn.prepareStatement(sql);
+			String sql2="delete from bank_question where bank_question.questionid='"+question+"';";
+			ptmt.executeUpdate();
+			ptmt= conn.prepareStatement(sql1);
+			ptmt.executeUpdate();
+			ptmt= conn.prepareStatement(sql2);
+			ptmt.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	public static String searchBank(String question) {
+		String sql="select bankname from bank_question where questionid='"+question+"' limit 1;";
+		String bank="j";
+		
+		try {
+			Connection conn= DBConnection.CreateConnection();
+			PreparedStatement ptmt= conn.prepareStatement(sql);
+			ResultSet rs=ptmt.executeQuery();
+			if(rs.next()) {
+				
+				bank=rs.getString(1);
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		System.out.println(bank);
+		return bank;
 	}
 }

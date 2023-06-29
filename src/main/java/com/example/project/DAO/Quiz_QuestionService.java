@@ -3,8 +3,6 @@ package com.example.project.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-import com.example.project.BEAN.Question;
-import com.example.project.BEAN.Quiz;
 import com.example.project.DB.DBConnection;
 
 public class Quiz_QuestionService {

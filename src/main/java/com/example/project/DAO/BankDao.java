@@ -11,6 +11,7 @@ import java.util.Map;
 
 import com.example.project.BEAN.Bank;
 import com.example.project.BEAN.Question;
+import com.example.project.DB.DBConnection;
 
 public class BankDao {
 	public static List<Bank> listBank(Connection conn){
@@ -112,6 +113,82 @@ public class BankDao {
 	        lis.add(s);
 	        if (bank.getChildren() != null && !bank.getChildren().isEmpty()) {
 	            List<String> childList = printTree(bank.getChildren(), level + 1); // Đệ quy để in các nút con
+	            lis.addAll(childList); // Thêm tất cả các nút con vào danh sách
+	        }
+	    }
+	    return lis;
+	}
+	public static List<String> countQuesInBank(Connection conn) {
+		
+		List<String> listS= new ArrayList<String>();
+		List<Bank> list = new ArrayList<Bank>();
+		
+		String sql = "select * from bank";
+		try 
+		{
+			PreparedStatement ptmt = conn.prepareStatement(sql);
+			
+			ResultSet rs = ptmt.executeQuery();
+			
+			while (rs.next())
+			{
+				Bank bank = new Bank(rs.getString("bankname"),rs.getString("parent"));
+				list.add(bank);
+			}
+			
+			Map<String, Bank> bankMap = new HashMap<>();
+	        for (Bank bank : list) {
+	            bankMap.put(bank.getBankName(), bank);
+	        }
+			List<Bank> treeList = new ArrayList<>();
+	        for (Bank bank : list) {
+	            String parentName = bank.getParent();
+	            if (parentName == null || parentName=="") {
+	                treeList.add(bank); // Gốc cây
+	            } else {
+	                Bank parentBank = bankMap.get(parentName);
+	                parentBank.addChild(bank);
+	            }
+	        }
+
+	        // In cây danh sách
+	      listS= printN(treeList, 0);
+			
+			
+		} 
+		catch (SQLException e) 
+		{
+
+
+			e.printStackTrace();
+		}
+		
+		return listS;
+	}
+	public static List<String> printN(List<Bank> banks, int level) {
+	    List<String> lis = new ArrayList<>();
+	    for (Bank bank : banks) {
+	        String s = "";
+	        String sql="select count(*) from bank_question where bank_question.bankname='"+bank.getBankName()+"';";
+	        
+	        try {
+				Connection conn= DBConnection.CreateConnection();
+				PreparedStatement ptmt= conn.prepareStatement(sql);
+				ResultSet rs= ptmt.executeQuery();
+				if(rs.next()) {
+					s += rs.getInt(1);
+					
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+	           // s += "&nbsp;&nbsp;"; // In khoảng cách để thể hiện cấp độ
+	           
+	        
+	       
+	        lis.add(s);
+	        if (bank.getChildren() != null && !bank.getChildren().isEmpty()) {
+	            List<String> childList = printN(bank.getChildren(), level + 1); // Đệ quy để in các nút con
 	            lis.addAll(childList); // Thêm tất cả các nút con vào danh sách
 	        }
 	    }
