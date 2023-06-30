@@ -60,10 +60,15 @@ public class Control {
 		
 		return "page1_1";
 	}
-	@PostMapping("/TurnEditing")
+	@GetMapping("/home/home")
+	public String home() {
+		return "home";
+	}
+	@GetMapping("/TurnEditing")
 	public String page2(){
 		return "TurnEditing";
 	}
+	
 	@GetMapping("/page2_1")
 	public String page2_1(Model model) {
 		try {
@@ -104,7 +109,19 @@ public class Control {
 	public String page6_1(@PathVariable("quizname") String quizname, Model model
 						) {
 		model.addAttribute("quizname",quizname);
-	
+		try {
+			Connection conn= DBConnection.CreateConnection();
+			List<Quiz> list= QuizService.listQuiz(conn);
+			int timelimit=60;
+			for(Quiz q:list) {
+				if(q.getQuizName().equals(quizname) && q.getTimeLimit()>0) {
+					timelimit=q.getTimeLimit();
+				}
+			}
+			model.addAttribute("timelimit", timelimit);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return "page6_1";
 	}
 	@GetMapping("/{quiz}/Editquiz")
@@ -120,6 +137,7 @@ public class Control {
 				
 			}else {
 				list = QuizService.listQuestion(conn,quiz);
+				
 				model.addAttribute("list", list);
 			}
 		} catch (Exception e) {
@@ -189,6 +207,18 @@ public class Control {
 			Connection conn= DBConnection.CreateConnection();
 			
 			List<Question> list= QuizService.listQuestion(conn, quizname);
+			List<Quiz> listQuiz= QuizService.listQuiz(conn);
+			int timelimit=3600;
+			for(Quiz q:listQuiz) {
+				if(q.getQuizName().equals(quizname)) {
+				
+					if(q.getTimeLimit()>0) {
+						timelimit=q.getTimeLimit();
+					}
+				}
+			}
+			
+			model.addAttribute("timelimit", timelimit);
 			model.addAttribute("list", list);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -266,8 +296,10 @@ public class Control {
         return "redirect:/page2_1";
     }
 	@PostMapping("/createquiz")
-	public String createQuiz(@RequestParam("name") String name,Model model) {
+	public String createQuiz(@RequestParam("name") String name,Model model,
+							@RequestParam("timelimit") int timelimit) {
 		int i=1;
+		System.out.println(timelimit);
 		try {
 			Connection conn= DBConnection.CreateConnection();
 			List<Quiz> list= new ArrayList<>();
@@ -288,7 +320,7 @@ public class Control {
 			return "TurnEditing";
 		}
 		else {
-			Quiz quiz= new Quiz(name);
+			Quiz quiz= new Quiz(name,timelimit);
 			try {
 				Connection conn= DBConnection.CreateConnection();
 				QuizService.addQuiz(conn, quiz);
@@ -426,21 +458,27 @@ public class Control {
 	}
 
 	@GetMapping("/getQuestion2_1")
-	public String page2_1(@RequestParam("option") String bank,Model model) {
+	public String page2_1(@RequestParam("option") String bank,Model model,
+				@RequestParam("check") int check) {
 		
 		
 		List<Question> listquestion= new ArrayList<>();
-		
-		try {
-			Connection conn= DBConnection.CreateConnection();
-			if(conn==null) {
-				
-			}else {
-				listquestion= BankDao.listQuestion(conn, bank);
-				model.addAttribute("questionList",listquestion);
+		if(check==0) {
+			try {
+				Connection conn= DBConnection.CreateConnection();
+				if(conn==null) {
+					
+				}else {
+					listquestion= BankDao.listQuestion(conn, bank);
+					model.addAttribute("questionList",listquestion);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
 			}
-		} catch (Exception e) {
-			// TODO: handle exception
+			
+		}else {
+			listquestion=BankDao.getListWithSubCate(bank);
+			model.addAttribute("questionList",listquestion);
 		}
 		model.addAttribute("bankgoc",bank);
 		return "page2_1 :: questionList";
@@ -550,7 +588,10 @@ public class Control {
 		return "redirect:/{quiz}";
 	}
 	@GetMapping("/{ques}/edit")
-	public String editQuestion(@PathVariable("ques") String question,Model model,@RequestParam(value = "bankgoc", required = false) String bankgoc) {
+	public String editQuestion(@PathVariable("ques") String question,Model model,
+					
+			@RequestParam(value = "bankgoc", required = false) String bankgoc) {
+	
 		Question ques= QuestionService.searchQuestion(question);
 		model.addAttribute("ques",ques);
 		if(bankgoc==null||bankgoc.isEmpty()) {

@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Page6_3</title>
-<link rel="stylesheet" href="/icons/themify-icons/themify-icons.css" ></head>
+<link rel="stylesheet" href="/icons/themify-icons/themify-icons.css" >
+<link rel="stylesheet" href="/css/navbar.css">
+</head>
 
 </head>
 <body>
@@ -28,7 +30,7 @@ height: 25px;
 }
 </style>
 <div th:value="${quiz}" id="value"></div>
-<div style="margin: 5%;margin-bottom: 10px;">
+<div style="margin: 10%;margin-bottom: 10px;">
 <h2 style="color: red;">Add from the question bank at the end</h2>
 <hr>
 <p>Select a category:&nbsp; 
@@ -83,7 +85,18 @@ height: 25px;
 
   </form>
 </div>
+<div id="navbar">
+  <ul>
+    <li><a href="/home/home">Home</a></li>
+    <li><a href="/page2_1">Bank</a></li>
+    <li>Calendar</li>
+    <li><a href="/">My Course</a></li>
+    <li><a href="/page3_2">Create Question</a></li>
+    <li><a href="/TurnEditing">Create Quiz</a></li>
+  </ul>
+</div>
 
+<script src="/js/script.js"></script>
 
 <script>
         function getQuestions(option) {

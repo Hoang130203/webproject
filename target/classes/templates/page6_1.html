@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/icons/themify-icons/themify-icons.css" >
+<link rel="stylesheet" href="/css/navbar.css">
 <title>Page6_1</title>
 </head>
 <body>
@@ -80,7 +81,18 @@ box-shadow:3px 5px 5px 3px #4a1515a6;
 border: 1px dashed black;
 }
 </style>
+<div id="navbar">
+  <ul>
+    <li><a href="/home/home">Home</a></li>
+    <li><a href="/page2_1">Bank</a></li>
+    <li>Calendar</li>
+    <li><a href="/">My Course</a></li>
+    <li><a href="/page3_2">Create Question</a></li>
+    <li><a href="/TurnEditing">Create Quiz</a></li>
+  </ul>
+</div>
 
+<script src="/js/script.js"></script>
 
 <div class="con"  style="    border: 2px solid brown;
     border-radius: 5px;
@@ -106,7 +118,7 @@ border: 1px dashed black;
 <h1 class="tieude" th:text="${quizname}"></h1>
 <div style="left: 60%;position: absolute;display: block;">
 <pre>
-Time limit: 1 hour
+Time limit: <span th:text="${timelimit}+' minutes'"></span>
 
 Grading method: Last attempt
 </pre>

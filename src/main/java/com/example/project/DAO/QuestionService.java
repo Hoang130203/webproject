@@ -32,8 +32,9 @@ public class QuestionService {
 //	    		  line= scanner.nextLine();
 	    		  continue;
 	    	  }
-	    	  while(!line.equalsIgnoreCase("ANSWER: A") &&!line.equalsIgnoreCase("ANSWER: B") &&!line.equalsIgnoreCase("ANSWER: C") 
-	    			  &&!line.equalsIgnoreCase("ANSWER: D") &&!line.equalsIgnoreCase("ANSWER: E")){
+	    	
+	    	  while(!line.toUpperCase().contains("ANSWER: A") &&!line.toUpperCase().contains("ANSWER: B") &&!line.toUpperCase().contains("ANSWER: C") 
+	    			  &&!line.toUpperCase().contains("ANSWER: D") &&!line.toUpperCase().contains("ANSWER: E")){
 	    		  tex= tex+line+"\n";
 	    		  line=scanner.nextLine();
 	    	  }
@@ -69,6 +70,7 @@ public class QuestionService {
     		demdong++;
     		line=sc.nextLine();
     	}
+      
       	while((line.trim().charAt(0)!='A' && line.trim().charAt(0)!='a'
       			&&line.trim().charAt(0)!='B' && line.trim().charAt(0)!='b'
 	    					  &&line.trim().charAt(0)!='C' && line.trim().charAt(0)!='c'
@@ -84,24 +86,40 @@ public class QuestionService {
       		}
       		
       	}
+    	
       	ArrayList<String> choices= new ArrayList<>();
-      	while(!line.trim().equalsIgnoreCase("ANSWER: A") &&!line.trim().equalsIgnoreCase("ANSWER: B") &&!line.trim().equalsIgnoreCase("ANSWER: C") 
-	    			  &&!line.trim().equalsIgnoreCase("ANSWER: D") &&!line.trim().equalsIgnoreCase("ANSWER: E") ){
-      		if(!line.isEmpty()) {
+      	while(!line.trim().toUpperCase().contains("ANSWER: A") &&!line.trim().toUpperCase().contains("ANSWER: B") &&!line.trim().toUpperCase().contains("ANSWER: C") 
+	    			  &&!line.trim().toUpperCase().contains("ANSWER: D") &&!line.trim().toUpperCase().contains("ANSWER: E") ){
+      		if(!line.isEmpty() && (line.contains("A.") ||line.contains("B.")||line.contains("C.")||line.contains("D.")||line.contains("E."))) {
       			choices.add(line.trim());
           		line= sc.nextLine();
-      		}else {
+      		}else if(!choices.isEmpty()) {
+
+      				choices.get(choices.size()-1).concat(line);
+      				line= sc.nextLine();
+
+      		}
+      		else {
       			line= sc.nextLine();
       		}
       		
       		demdong++;
       	}
+      	while(line.isEmpty()) {
+      		line=sc.nextLine();
+      	}
+      	if(line.length()>9) {
+      		line=line.substring(0, 9);
+      	}
       	String answer= line;
-      	if(name==null || cauHoi==null || cauHoi.equalsIgnoreCase("") || choices==null ||choices.size()<=2 || answer==null || answer.equalsIgnoreCase("")) {
+      	
+      	if(name==null || cauHoi==null || cauHoi.equalsIgnoreCase("") || choices==null ||choices.size()<=2 || answer==null || answer.equalsIgnoreCase("") || choices.size()>5 || choices.size()<2
+      			|| !answer.substring(0,6).equalsIgnoreCase("ANSWER")||choices.get(0).charAt(1)!='.') {
       		loi+=demdong+" ";
       		continue;
       	}else {
       		Question ques= new Question(name, cauHoi, choices, answer);
+      		System.out.println(ques.getQuestionID());
           	questions.add(ques);
       	}
       	sc.close();
@@ -130,8 +148,8 @@ public class QuestionService {
 //	    		  line= scanner.nextLine();
 	    		  continue;
 	    	  }
-	    	  while(!line.equalsIgnoreCase("ANSWER: A") &&!line.equalsIgnoreCase("ANSWER: B") &&!line.equalsIgnoreCase("ANSWER: C") 
-	    			  &&!line.equalsIgnoreCase("ANSWER: D") &&!line.equalsIgnoreCase("ANSWER: E")){
+	    	  while(!line.toUpperCase().contains("ANSWER: A") &&!line.toUpperCase().contains("ANSWER: B") &&!line.toUpperCase().contains("ANSWER: C") 
+	    			  &&!line.toUpperCase().contains("ANSWER: D") &&!line.toUpperCase().contains("ANSWER: E")){
 	    		  tex= tex+line+"\n";
 	    		  line=scanner.nextLine();
 	    	  }
@@ -165,6 +183,7 @@ public class QuestionService {
     		demdong++;
     		line=sc.nextLine();
     	}
+    	
     	while((line.trim().charAt(0)!='A' && line.trim().charAt(0)!='a'
     			&&line.trim().charAt(0)!='B' && line.trim().charAt(0)!='b'
 	    					  &&line.trim().charAt(0)!='C' && line.trim().charAt(0)!='c'
@@ -180,22 +199,36 @@ public class QuestionService {
       		}
     		demdong++;
     	}
+    	
     	ArrayList<String> choices= new ArrayList<>();
-    	while(!line.trim().equalsIgnoreCase("ANSWER: A") &&!line.trim().equalsIgnoreCase("ANSWER: B") &&!line.trim().equalsIgnoreCase("ANSWER: C") 
-	    			  &&!line.trim().equalsIgnoreCase("ANSWER: D") &&!line.trim().equalsIgnoreCase("ANSWER: E") ){
-    		if(!line.isEmpty()) {
+    	while(!line.trim().toUpperCase().contains("ANSWER: A") &&!line.trim().toUpperCase().contains("ANSWER: B") &&!line.trim().toUpperCase().contains("ANSWER: C") 
+	    			  &&!line.trim().toUpperCase().contains("ANSWER: D") &&!line.trim().toUpperCase().contains("ANSWER: E") ){
+    		if(!line.isEmpty() && (line.contains("A.") ||line.contains("B.")||line.contains("C.")||line.contains("D.")||line.contains("E."))) {
       			choices.add(line.trim());
           		line= sc.nextLine();
-      		}else {
+      		}else if(!choices.isEmpty()) {
+      				choices.get(choices.size()-1).concat(line);
+      				line= sc.nextLine();
+
+      		}
+    		else {
       			line= sc.nextLine();
       		}
       		
     		demdong++;
     	}
-    	String answer= line;
-    	if(name==null || cauHoi==null || cauHoi.equalsIgnoreCase("") || choices==null ||choices.size()<=2 || answer==null || answer.equalsIgnoreCase("")) {
-    		loi+=demdong+" ";
-    		continue;
+    	while(line.isEmpty()) {
+      		line=sc.nextLine();
+      	}
+    	if(line.length()>9) {
+      		line=line.substring(0, 9);
+      	}
+      	String answer= line;
+      	
+      	if(name==null || cauHoi==null || cauHoi.equalsIgnoreCase("") || choices==null ||choices.size()<=2 || answer==null || answer.equalsIgnoreCase("") || choices.size()>5 || choices.size()<2
+      			|| !answer.substring(0,6).equalsIgnoreCase("ANSWER")||choices.get(0).charAt(1)!='.') {
+      		loi+=demdong+" ";
+      		continue;
     	}else {
     		Question ques= new Question(name, cauHoi, choices, answer);
         	questions.add(ques);
@@ -270,6 +303,12 @@ public static void savequestion(Connection conn,Question question,String bank) t
 		try {
 			List<Bank> listBank= new ArrayList<>();
 			listBank= BankDao.listBank(conn);
+			if(listBank==null || listBank.isEmpty()) {
+				String sql = "INSERT INTO bank VALUES('bankgoc',null)";
+				PreparedStatement ptmt= conn.prepareStatement(sql);
+				ptmt.executeUpdate();
+				listBank= BankDao.listBank(conn);
+			}
 			Random random = new Random();
 	        int randomIndex = random.nextInt(listBank.size());
 			Bank bank= listBank.get(randomIndex);

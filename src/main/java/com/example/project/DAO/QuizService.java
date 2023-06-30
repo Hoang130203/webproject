@@ -40,7 +40,7 @@ public class QuizService {
 		
 	}
 	public static void addQuiz(Connection conn, Quiz quiz) {
-		String sql= "insert into quiz values('"+quiz.getQuizName()+"')";
+		String sql= "insert into quiz values('"+quiz.getQuizName()+"','"+quiz.getTimeLimit()+"');";
 		try {
 			PreparedStatement ptmt= conn.prepareStatement(sql);
 			ptmt.executeUpdate();
@@ -56,7 +56,8 @@ public class QuizService {
 			PreparedStatement ptmt= conn.prepareStatement(sql);
 			ResultSet rs= ptmt.executeQuery();
 			while(rs.next()) {
-				Quiz quiz= new Quiz(rs.getString("quizname"));
+				Quiz quiz= new Quiz(rs.getString("quizname"),rs.getInt("timelimit"));
+				
 				list.add(quiz);
 				
 			}

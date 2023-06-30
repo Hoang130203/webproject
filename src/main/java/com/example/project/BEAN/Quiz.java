@@ -5,6 +5,21 @@ import java.util.List;
 
 public class Quiz {
 	private String quizName;
+	private int timeLimit;
+	
+	public Quiz(String quizName, int timeLimit) {
+		super();
+		this.quizName = quizName;
+		this.timeLimit = timeLimit;
+	}
+
+	public int getTimeLimit() {
+		return timeLimit;
+	}
+
+	public void setTimeLimit(int timeLimit) {
+		this.timeLimit = timeLimit;
+	}
 	private List<Question> listQuestion= new ArrayList<Question>();
 	
 	public List<Question> getListQuestion() {

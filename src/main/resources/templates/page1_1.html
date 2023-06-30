@@ -8,10 +8,66 @@
 </head>
 <body>
 <style>
+#navbar {
+        background: linear-gradient(to bottom,  #000000,#ab8787);
+        position: fixed;
+        top: 0;
+        left: 0;
+        position: fixed;
+        height:100%;
+		width:20%;
+		top:0px;
+		box-shadow: 10px 0 rgba(0, 0, 0, 0);
+		transition: box-shadow 0.5s;
+		z-index: 99;
+    }
+	 #navbar:hover {
+        box-shadow: 80px 0 rgb(136 74 102 / 9%);
+    }
+    #navbar ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+         display: flex;
+		 flex-direction: column;
+		 justify-content: center;
+		 height: 100%;
+    }
+
+   #navbar li {
+        padding: 10px;
+        color: white;
+        cursor: pointer;
+        height: 28px;
+        text-align: center;
+    }
+    #navbar li a{
+        padding: 10px;
+        color: white;
+        cursor: pointer;
+        height: 28px;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    #navbar li:hover {
+        background-color: gray;
+        font-size: large;
+    }
+    
 .tieude{
 color: red;
 margin-left: 50px;
 }
+.quiz:hover{
+background-color:gray;
+
+}
+.quiz:hover a{
+color:white;
+}
+
 .button{
 color: white;
 background-color: #0072fede;
@@ -29,7 +85,7 @@ border-radius: 7px;
     bottom:0;
 	top:30%;
     right:0;
-    left:20%;
+    left:40%;
     
     
     
@@ -72,6 +128,20 @@ ol li:before {
   border-radius: 3px;
 }  
 </style>
+<div id="navbar" >
+ <ul>
+
+        <li> <a href="/home/home"> Home</a></li>
+        <li><a href="/page2_1" > Bank </a></li>
+        <li>Calendar</li>
+        <li><a href="/" >My Course</a></li>        
+        <li> <a href="/page3_2">Create Question</a> </li>
+        <li><a href="/TurnEditing">Create Quiz</a> </li>
+
+    </ul>
+</div>
+
+<div style="width:74%;left:15%;position: absolute;top:0px;;padding-left: 10%;padding-bottom: 20px;">
 <div class="con"  style="    border: 2px solid brown;
     border-radius: 5px;
     padding: 3px;
@@ -86,7 +156,7 @@ ol li:before {
 <h1 class="tieude">IT</h1>
 <h3 class= "tieude">Home  / My course  / THI Cuối kỳ</h3>
 
-<form th:action="@{/TurnEditing}" method= "POST" >
+<form th:action="@{/TurnEditing}" method= "GET" >
 <!--  input type="submit" value="TURN EDITING ON" class="button"-->
 <button type="submit" class="button"><h2>TURN EDITING ON</h2></button>
 </form>
@@ -98,9 +168,9 @@ ol li:before {
     min-height: 532px;
     display: inline-block;
     min-width: 95%;
-    margin-left: 25px;">
-  <ol style="list-style-type: none;position: absolute; left:20%;margin-top: 30px;">
-  <li th:each ="quiz: ${list}" style="padding: 5px; width: 400px;border: 1px solid #bebebe;border-radius: 2px ">
+    margin-left: 25px;overflow: auto;">
+  <ol style="list-style-type: none;position: relative; left:0%;margin-top: 30px;max-height:90%;">
+  <li class="quiz" th:each ="quiz: ${list}" style="padding: 5px; width: 400px;max-width:87%;border: 1px solid #bebebe;border-radius: 2px ">
   <a th:href="@{/{quizname}(quizname=${quiz.getQuizName})}" style="text-decoration: none;" ><span th:text="${quiz.getQuizName}"></span></a>
   <a th:href="@{/{quizname}/xoa(quizname=${quiz.getQuizName})}" th:onclick="'javascript:showDeleteAlert()'">
     <button  class="ti-trash" style="float:right;color: red; "></button>
@@ -126,7 +196,7 @@ ol li:before {
 	
 	</div>
 </div>
-
+</div>
 <script>
 const set= document.querySelector('.js-setting')
 const open=document.querySelector('.setting')

@@ -271,7 +271,7 @@ public class BankDao {
 
 			e.printStackTrace();
 		}
-		System.out.println(listQ.size());
+		
 		return listQ;
 	}
 	public static List<Question> questionTree(Bank bank){

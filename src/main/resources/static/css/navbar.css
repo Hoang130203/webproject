@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+#navbar {
+  background: linear-gradient(to bottom, #000000, #ab8787);
+  position: fixed;
+  top: 0;
+  left: -20%; /* Vị trí ban đầu của navbar */
+  width: 20%;
+  height: 100%;
+  transition: left 0.5s; /* Thời gian chuyển đổi */
+  z-index: 99;
+  
+}
+
+#navbar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+#navbar li {
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  height: 28px;
+  text-align: center;
+}
+
+#navbar li a {
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  height: 28px;
+  text-align: center;
+  text-decoration: none;
+}
+
+#navbar li:hover {
+  background-color: gray;
+  font-size: large;
+}

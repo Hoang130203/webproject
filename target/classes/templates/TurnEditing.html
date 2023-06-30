@@ -4,12 +4,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="/icons/themify-icons/themify-icons.css">
+<link rel="stylesheet" href="/css/navbar.css">
 </head>
 <body>
 <style>
 .container{
 padding: 10px;
 width: 95%;
+float:right;
 margin-left: 20px;
 border: 1px solid gray;
 border-radius: 2px;
@@ -86,17 +88,35 @@ bottom:10px;
   </span>
 </span>
 </p>
-<p>Time limit</p>
+<p>Time limit
+<span  style="position:absolute;left:40%">
+<input type="text" name="timelimit" style="width:50px" value="60">
+<select style="height:22px;">
+<option>minutes</option>
+</select>
+</span>
+</p>
 <p>When time expires</p>
-
+</div>
 <p>
-<input type="submit" class="button" style="background-color: blue; " value="CREATE">
+<input type="submit" class="button" style="background-color: blue; " value="CREATE" >
 
 </form>
 </div>
 <a th:href="@{/}"><button class="button" style="background-color: red;left:17%;">CANCEL</button></a>
 </p>
+<div id="navbar">
+  <ul>
+    <li><a href="/home/home">Home</a></li>
+    <li><a href="/page2_1">Bank</a></li>
+    <li>Calendar</li>
+    <li><a href="/">My Course</a></li>
+    <li><a href="/page3_2">Create Question</a></li>
+    <li><a href="/TurnEditing">Create Quiz</a></li>
+  </ul>
+</div>
 
+<script src="/js/script.js"></script>
 <script type="text/javascript">
 	function updateSelectValues() {
 		  var now = new Date();

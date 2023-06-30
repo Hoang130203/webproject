@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="/icons/themify-icons/themify-icons.css" >
+<link rel="stylesheet" href="/css/navbar.css">
 </head>
 <style>
 .search{
@@ -22,7 +23,7 @@
 	}
 </style>
 <body>
-<div style="margin: 5%; ">
+<div style="margin: 10%; ">
 <h2 style="color: red;">Add a random question to page 1</h2>
 <hr>
 <br>
@@ -101,6 +102,7 @@
  
 </form>
 <div style="display: none;" id="message" th:text="${message}">
+
 <script type="text/javascript">
 var mes = document.getElementById("message").textContent;
 if(mes.length>0){
@@ -110,6 +112,18 @@ alert("iphjioh");
 
 </script>
 </div>
+<div id="navbar">
+  <ul>
+    <li><a href="/home/home">Home</a></li>
+    <li><a href="/page2_1">Bank</a></li>
+    <li>Calendar</li>
+    <li><a href="/">My Course</a></li>
+    <li><a href="/page3_2">Create Question</a></li>
+    <li><a href="/TurnEditing">Create Quiz</a></li>
+  </ul>
+</div>
+
+<script src="/js/script.js"></script>
 <script type="text/javascript">
 	function showlist(option,page){
 		var status= document.getElementById("cate").value
