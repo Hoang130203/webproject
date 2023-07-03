@@ -29,6 +29,30 @@ public class QuizService {
 				}
 				String ans= rs.getString("answer");
 				Question question= new Question(id, content, choices, ans);
+				if(rs.getString(9)!=null&& !rs.getString(9).isEmpty()) {
+					question.setImageContent(rs.getString(9));
+					
+				}
+				if(rs.getString(10)!=null && !rs.getString(10).isEmpty()) {
+					question.setImageChoice1(rs.getString(10));
+				}
+				if(rs.getString(11)!=null && !rs.getString(11).isEmpty()) {
+					question.setImageChoice2(rs.getString(11));				
+				}
+				if(rs.getString(12)!=null && !rs.getString(12).isEmpty()) {
+					question.setImageChoice3(rs.getString(12));
+				}
+				if(rs.getString(13)!=null && !rs.getString(13).isEmpty()) {
+					question.setImageChoice4(rs.getString(13));
+				}
+				if(rs.getString(14)!=null && !rs.getString(14).isEmpty()) {
+					question.setImageChoice5(rs.getString(14));
+				}
+				
+				
+				
+				
+				
 				list.add(question);
 				
 			}

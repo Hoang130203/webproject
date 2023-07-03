@@ -2,12 +2,22 @@
 <html  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link rel='shortcut icon' href='/image/pngegg (8).png' />
 <title>Page1_1</title>
 <link rel="stylesheet" href="/icons/themify-icons/themify-icons.css" >
 <link rel="/js/setting.js">
 </head>
 <body>
 <style>
+body,body>div{
+ background-image: url("/image/hinh-nen-go-1.jpg");
+ width: 100%;
+  height: 100%;
+  min-width: 180px;
+} 
+body>div div{
+background-color: white;
+}
 #navbar {
         background: linear-gradient(to bottom,  #000000,#ab8787);
         position: fixed;
@@ -141,7 +151,7 @@ ol li:before {
     </ul>
 </div>
 
-<div style="width:74%;left:15%;position: absolute;top:0px;;padding-left: 10%;padding-bottom: 20px;">
+<div style="width:74%;left:15%;position: absolute;top:0px;;padding-left: 10%;padding-bottom: 20px;background-color: white;">
 <div class="con"  style="    border: 2px solid brown;
     border-radius: 5px;
     padding: 3px;
@@ -150,6 +160,11 @@ ol li:before {
     display: inline-block;
     min-width: 95%;
     margin-left: 25px;
+   background-image: url('/image/pngegg (5_1).png');
+    background-size:40%;
+    background-position:center;
+ 	background-repeat: no-repeat;
+ 
     ">
 <button class="ti-settings js-setting" style="float: right; margin-right:30px;margin-top:15px;background-color:white;
    padding:3px; font-size: 30px;color: blue;"></button>
@@ -168,12 +183,21 @@ ol li:before {
     min-height: 532px;
     display: inline-block;
     min-width: 95%;
-    margin-left: 25px;overflow: auto;">
+    margin-left: 25px;overflow: auto;
+    background-image: url('/image/hoa.png');
+    background-size:30%;
+    background-position:center;
+ 	background-repeat: no-repeat;
+ 	 background-image: url('/image/pngegg (5).png');
+    background-size:75%;
+    background-position:right;
+ 	background-repeat: no-repeat;
+    ">
   <ol style="list-style-type: none;position: relative; left:0%;margin-top: 30px;max-height:90%;">
   <li class="quiz" th:each ="quiz: ${list}" style="padding: 5px; width: 400px;max-width:87%;border: 1px solid #bebebe;border-radius: 2px ">
   <a th:href="@{/{quizname}(quizname=${quiz.getQuizName})}" style="text-decoration: none;" ><span th:text="${quiz.getQuizName}"></span></a>
   <a th:href="@{/{quizname}/xoa(quizname=${quiz.getQuizName})}" th:onclick="'javascript:showDeleteAlert()'">
-    <button  class="ti-trash" style="float:right;color: red; "></button>
+    <button  class="ti-trash" style="float:right;color: red; cursor: pointer; border: none;background-color:white;border-radius:3px;"></button>
   
   </a>
   </li>

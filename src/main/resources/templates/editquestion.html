@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<link rel='shortcut icon' href='/image/pngegg (8).png' />
+
 <meta charset="UTF-8">
 <title>editquestion</title>
 <link rel="stylesheet" href="/icons/themify-icons/themify-icons.css" ></head>
@@ -66,6 +68,12 @@ display: block;
 <hr style="border-top: 1px solid #d3c7c70f;">
 <div >Question text
 <textarea onchange="showdata()"   id="qcontent" name="questioncontent" th:text="${ques.getQuestionContent()}" rows="15" cols="50" style="position: absolute;left:40vw;"></textarea> 
+<span>
+
+<img onchange="showdata()" alt="Example Image" th:src="'data:image/jpeg;base64,'+${imagecontent}" id="imgcontent" style="width: auto;max-height: 200px;max-width:400px; float: right;position: relative;z-index: 1;" >
+<input  type="file" name="imagecontent" id="imagecontent" onclick="showdata()"  onchange="chooseimagecontent(this)" accept="image/jpg,image/jpeg,image/png" style="position:relative ;left:30px;">
+
+</span>
 </div>
 <br><br><br><br><br><br><br><br><br><br><br><br>
 <hr style="border-top: 1px solid #d3c7c70f;">
@@ -74,7 +82,7 @@ display: block;
 </p>
 </div>
 <div style="display: block;">
-<div onchange="showdata()"  th:each="choice,index : ${ques.getListChoice()}"  style=" position: relative; ;left: 30vw;border: 1px solid black;
+<div onchange="showdata()"  th:each="choice,index : ${ques.getListChoice()}"  style=" position: relative ;left: 30vw;border: 1px solid black;
 	min-height: 200px;min-width: 30vw;
 	float:left;display: block;
     margin-bottom: 10px;clear: both;
@@ -89,59 +97,59 @@ display: block;
 <option>70%</option>
 <option>75%</option>
 </select> </div>
+
+<div>
+<img onchange="showdata()" alt="" th:src="'data:image/jpeg;base64,'+${#vars['imagechoice' + index.count]}" th:id="'imgchoice'+${index.count}" style="width: auto;max-height: 100px;max-width:400px; float: right;position: relative;z-index: 1;" >
+
 </div>
-<!--  div class= "an" th:each="index : ${#numbers.sequence(3, 5)}"  >
-<div style="padding: 30px 10px 10px 10px;">[['Choice ' + ${index}]] <input class="choice" th:name="'choice'+${index}" type="text" style="width: 300px;height: 25px;"> </div>
-<div style="padding: 10px;">Grade <select>
-<option>None</option>
-<option>100%</option>
-<option>90%</option>
-<option>83.33333%</option>
-<option>80%</option>
-<option>70%</option>
-<option>75%</option>
-</select> </div>
-</div-->
-
-<div  style="position: relative;"><p style="display:block;float:left;margin-left: 30vw;margin-right: 300px;">
-
-</p>
-
-<div style="display:block;float:left;margin-left: 30vw;margin-right: 200px;">
-
-
-    <!--  input type="hidden" name="cate" id="cate">
-	<input type="hidden" name="qn" id="qn">
-	<input type="hidden" name="qc" id="qc">
-	<input type="hidden" name="qc1" id="qc1">
-	<input type="hidden" name="qc2" id="qc2">
-	<input type="hidden" name="qc3" id="qc3">
-	<input type="hidden" name="qc4" id="qc4">
-	<input type="hidden" name="qc5" id="qc5">
-	<input type="hidden" name="ans" id="ans"-->
-
-
-
-
-<br><br><br><br><br><br><br><br><br><br><br><br>
+<div>
+<input type="file" th:id="'imagechoice'+${index.count}" th:name="'imagechoice'+${index.count}"  onclick="showdata()" th:onchange="'chooseimagechoice('+${index.count}+',this)'" >
 </div>
-<div style="display:inline;float:left;margin-left: 30vw;margin-right: 20px;">
+
+
+</div>
+
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+</div>
+
+</div>
+<div style="display:block;float:left;margin-left: 35vw;margin-right: 20px;position: relative;bottom: 10px;">
 <form id="sendForm" action="/editquestion" method="post" >
  <input type="hidden" name="list" id="list">
  <input type="hidden" name="bankgoc" id="bankgoc" th:value="${bankgoc}">
+
 <button id="sendButton" style="color: white; background-color: red;position: relative;height: 35px;">SAVE CHANGES</button>
 </form>
  </div>
- <div style="display:inline;float:left;margin-right: 200px;">
+ <div style="display:inline;float:left;margin-right: 200px;position: relative;bottom: 10px;">
  <a th:href="@{/page2_1}" > <button style="color: white; background-color: blue;position: relative;height: 35px;">CANCEL</button> </a>
 
  </div>
-</div>
-</div>
-
-
-</div>
-
+<script type="text/javascript">
+	function chooseimagecontent(fileInput){
+		if(fileInput.files && fileInput.files[0]){
+			var reader= new FileReader()
+			reader.onload= function(e){
+				$('#imgcontent').attr('src',e.target.result)
+			}
+			reader.readAsDataURL(fileInput.files[0])
+		}
+	}
+	function chooseimagechoice(i,fileInput){
+		if(fileInput.files && fileInput.files[0]){
+			var reader= new FileReader()
+			reader.onload= function(e){
+				$('#imgchoice'+i).attr('src',e.target.result)
+			}
+			reader.readAsDataURL(fileInput.files[0])
+		}
+	}
+	
+	
+</script>
 <script type="text/javascript">
 
 const blank= document.querySelector('.blank3')
@@ -218,11 +226,56 @@ function showdata(){
        		var questionid= document.getElementById("qname").value;
        		console.log(list)
        		var bankgoc=document.getElementById("bankgoc").value
+       		
+       		var formData = new FormData();
+       		formData.append('bankgoc',bankgoc)
+            formData.append('list', list); // Thêm danh sách JSON
+       		var imgcontent=  document.getElementById("imagecontent").files[0];
+       		if (imgcontent) {
+                formData.append('imgcontent', imgcontent); // Thêm tệp tin Multipart
+                }
+       		if(document.getElementById("imagechoice1")){
+       			var imgchoice1=  document.getElementById("imagechoice1").files[0];
+           		if (imgchoice1) {
+                    formData.append('imgchoice1', imgchoice1); // Thêm tệp tin Multipart
+                    }
+       		}
+       		if(document.getElementById("imagechoice2")){
+       			var imgchoice2=  document.getElementById("imagechoice2").files[0];
+           		if (imgchoice2) {
+                    formData.append('imgchoice2', imgchoice2); // Thêm tệp tin Multipart
+                    }
+       		}
+       		if(document.getElementById("imagechoice3")){
+       			var imgchoice3=  document.getElementById("imagechoice3").files[0];
+           		if (imgchoice3) {
+                    formData.append('imgchoice3', imgchoice3); // Thêm tệp tin Multipart
+                    }
+       		}
+       		if(document.getElementById("imagechoice4")){
+       			var imgchoice4=  document.getElementById("imagechoice4").files[0];
+           		if (imgchoice4) {
+                    formData.append('imgchoice4', imgchoice4); // Thêm tệp tin Multipart
+                    }
+       		}
+       		if(document.getElementById("imagechoice5")){
+       			var imgchoice5=  document.getElementById("imagechoice5").files[0];
+           		if (imgchoice5) {
+                    formData.append('imgchoice5', imgchoice5); // Thêm tệp tin Multipart
+                    }
+       		}
+       		//var imgcontent=   $("#imgcontent").attr("src");
+          //  if (imgcontent) {
+           // formData.append('imgcontent', imgcontent); // Thêm tệp tin Multipart
+           // }
+            
             // Gửi yêu cầu AJAX tới máy chủ
             $.ajax({
                 url: "/editquestion",
                 type: "POST",
-                data: { list:list ,bankgoc:bankgoc},
+                data: formData,
+                processData: false,
+                contentType: false,
                 success: function(response) {
                     // Xử lý phản hồi từ máy chủ
                     if (response.error) {

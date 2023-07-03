@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<link rel='shortcut icon' href='/image/pngegg (8).png' />
+
 <meta charset="UTF-8">
 <title>Page3_2</title>
 <link rel="stylesheet" href="/icons/themify-icons/themify-icons.css" >
@@ -9,7 +11,14 @@
 <body>
 
 <style>
-
+body{
+ background-image: url("/image/hinh-nen-go-1.jpg");
+ width: 100%;
+  height: 100%;
+} 
+body>div{
+background-color: white;
+}
 .an{
   position: relative; ;left: 30vw;border: 1px solid black;
 	min-height: 200px;min-width: 30vw;
@@ -30,6 +39,10 @@ display: block;
     display: inline-block;
     width: 93%;
     color: red;
+     background-image: url('/image/pngegg (5_1).png');
+    background-size:40%;
+    background-position:right;
+ 	background-repeat: no-repeat;
     ">
 
 <h1 class="tieude">IT</h1>
@@ -61,11 +74,16 @@ display: block;
 </select> </p>
 <hr style="border-top: 1px solid #d3c7c70f;">
 <p>Question name
-<input type="text" id="qname" name="questionname" style="width: 300px;height: 30px;position:absolute; left:40vw;">
+<input type="text" id="qname" name="questionname" style="width: 300px;height: 30px;position:absolute; left:40vw;z-index: 2">
 </p>
 <hr style="border-top: 1px solid #d3c7c70f;">
 <div >Question text
 <textarea id="qcontent" name="questioncontent" rows="15" cols="50" style="position: absolute;left:40vw;"></textarea> 
+<span>
+<img alt="" src="" id="imgcontent" style="width: auto;max-height: 200px;max-width:400px; float: right;position: relative;z-index: 1;" >
+<input  type="file" name="imagecontent" id="imagecontent"   onchange="chooseimagecontent(this)" accept="image/jpg,image/jpeg,image/png" style="position:relative ;left:30px;">
+
+</span>
 </div>
 <br><br><br><br><br><br><br><br><br><br><br><br>
 <hr style="border-top: 1px solid #d3c7c70f;">
@@ -74,7 +92,7 @@ display: block;
 </p>
 </div>
 <div style="display: block;">
-<div th:each="index : ${#numbers.sequence(1, 2)}"  style=" position: relative; ;left: 30vw;border: 1px solid black;
+<div th:each="index : ${#numbers.sequence(1, 2)}"  style=" position: relative; left: 30vw;border: 1px solid black;
 	min-height: 200px;min-width: 30vw;
 	float:left;display: block;
     margin-bottom: 10px;clear: both;
@@ -86,9 +104,27 @@ display: block;
 <option>90%</option>
 <option>83.33333%</option>
 <option>80%</option>
-<option>70%</option>
 <option>75%</option>
+<option>70%</option>
+<option>60%</option>
+<option>50%</option>
+<option>40%</option>
+<option>30%</option>
+<option>25%</option>
+<option>20%</option>
+<option>16.66666%</option>
+<option>10%</option>
 </select> </div>
+<div>
+<img alt="" src="" th:id="'imgchoice'+${index}" style="width: auto;max-height: 100px;max-width:400px; float: right;position: relative;z-index: 1;" >
+
+</div>
+<div>
+<input type="file" th:id="'imagechoice'+${index}" th:name="'imagechoice'+${index}" th:onchange="'chooseimagechoice('+${index}+',this)'" >
+</div>
+
+
+
 </div>
 <div class= "an" th:each="index : ${#numbers.sequence(3, 5)}"  >
 <div style="padding: 30px 10px 10px 10px;">[['Choice ' + ${index}]] <input class="choice" th:name="'choice'+${index}" type="text" style="width: 300px;height: 25px;"> </div>
@@ -100,7 +136,23 @@ display: block;
 <option>80%</option>
 <option>70%</option>
 <option>75%</option>
+<option>70%</option>
+<option>60%</option>
+<option>50%</option>
+<option>40%</option>
+<option>30%</option>
+<option>25%</option>
+<option>20%</option>
+<option>16.66666%</option>
+<option>10%</option>
 </select> </div>
+<div>
+<img alt="" src="" th:id="'imgchoice'+${index}" style="width: auto;max-height: 100px;max-width:400px; float: right;position: relative;z-index: 1;" >
+
+</div>
+<div>
+<input type="file" th:id="'imagechoice'+${index}" th:name="'imagechoice'+${index}" th:onchange="'chooseimagechoice('+${index}+',this)'" >
+</div>
 </div>
 
 <div  style="position: relative;"><p style="display:block;float:left;margin-left: 30vw;margin-right: 300px;">
@@ -176,6 +228,9 @@ function sendform() {
 	var choice5=document.getElementsByName("choice5")[0].value;
 	var answer= document.getElementById("answer").value;
 	var category= document.getElementById("select").value.replaceAll(/&#8203;&nbsp;/g, "");
+	
+
+	
 	 var list = [];
 	 list.push(questionname);
 	 list.push(questioncontent);
@@ -186,6 +241,7 @@ function sendform() {
 	 list.push(choice5);
 	 list.push(answer);
 	 list.push(category);
+	
 	 document.getElementById("list").value = JSON.stringify(list);
 	//document.getElementById("cate").value = category;
 	//document.getElementById("qn").value = questionname;
@@ -200,6 +256,30 @@ function sendform() {
 }
 document.getElementById("sendButton").addEventListener("click", sendform);
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script type="text/javascript">
+	function chooseimagecontent(fileInput){
+		if(fileInput.files && fileInput.files[0]){
+			var reader= new FileReader()
+			reader.onload= function(e){
+				$('#imgcontent').attr('src',e.target.result)
+			}
+			reader.readAsDataURL(fileInput.files[0])
+		}
+	}
+	function chooseimagechoice(i,fileInput){
+		if(fileInput.files && fileInput.files[0]){
+			var reader= new FileReader()
+			reader.onload= function(e){
+				$('#imgchoice'+i).attr('src',e.target.result)
+			}
+			reader.readAsDataURL(fileInput.files[0])
+		}
+	}
+	
+	
+</script>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -209,11 +289,39 @@ document.getElementById("sendButton").addEventListener("click", sendform);
             // Lấy dữ liệu từ form
             var list = document.getElementById("list").value;
        		var questionid= document.getElementById("qname").value;
+       		var imgcontent=  document.getElementById("imagecontent").files[0];
+       		var formData = new FormData();
+            formData.append('list', list); // Thêm danh sách JSON
+            if (imgcontent) {
+            formData.append('imgcontent', imgcontent); // Thêm tệp tin Multipart
+            }
+            var imgchoice1= document.getElementById("imagechoice1").files[0];
+            if(imgchoice1){
+            	formData.append('imgchoice1',imgchoice1);
+            } 
+            var imgchoice2= document.getElementById("imagechoice2").files[0];
+            if(imgchoice2){
+            	formData.append('imgchoice2',imgchoice2);
+            }
+            var imgchoice3= document.getElementById("imagechoice3").files[0];
+            if(imgchoice3){
+            	formData.append('imgchoice3',imgchoice3);
+            }
+            var imgchoice4= document.getElementById("imagechoice4").files[0];
+            if(imgchoice4){
+            	formData.append('imgchoice4',imgchoice4);
+            }
+            var imgchoice5= document.getElementById("imagechoice5").files[0];
+            if(imgchoice5){
+            	formData.append('imgchoice5',imgchoice5);
+            }
             // Gửi yêu cầu AJAX tới máy chủ
             $.ajax({
                 url: "/addQuestionto",
                 type: "POST",
-                data: { list:list },
+                data: formData,
+                processData: false,
+                contentType: false,
                 success: function(response) {
                     // Xử lý phản hồi từ máy chủ
                     if (response.error) {

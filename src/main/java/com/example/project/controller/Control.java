@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,15 +22,19 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.project.BEAN.Bank;
+import com.example.project.BEAN.CustomMultipartFile;
 import com.example.project.BEAN.Question;
 import com.example.project.BEAN.Quiz;
 import com.example.project.DAO.BankDao;
 import com.example.project.DAO.Export;
 import com.example.project.DAO.HomeDao;
+import com.example.project.DAO.ImageService;
 import com.example.project.DAO.QuestionService;
 import com.example.project.DAO.QuizService;
 import com.example.project.DAO.Quiz_QuestionService;
 import com.example.project.DB.DBConnection;
+
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
@@ -404,7 +409,14 @@ public class Control {
 
 
 	@PostMapping("/addQuestionto")
-	public String addquestiontobank(@RequestParam("list")String list, RedirectAttributes redirectAttributes){
+	public String addquestiontobank(@RequestParam("list")String list,
+			@RequestParam(value = "imgcontent", required = false) MultipartFile imgcontent,
+			@RequestParam(value = "imgchoice1", required = false) MultipartFile imgchoice1,
+			@RequestParam(value = "imgchoice2", required = false) MultipartFile imgchoice2,
+			@RequestParam(value = "imgchoice3", required = false) MultipartFile imgchoice3,
+			@RequestParam(value = "imgchoice4", required = false) MultipartFile imgchoice4,
+			@RequestParam(value = "imgchoice5", required = false) MultipartFile imgchoice5,
+			RedirectAttributes redirectAttributes){
 		try {
 			String decodedQuestions = URLDecoder.decode(list, "UTF-8");
 			System.out.println(list);
@@ -413,14 +425,18 @@ public class Control {
 			
 			String questionid=array.getString(0);
 			String questioncontent=array.getString(1);
+			ArrayList<String> choicesgoc= new ArrayList<>();
 			ArrayList<String> choices= new ArrayList<>();
 			for(int i=2;i<=6;i++) {
+				choicesgoc.add(array.getString(i));
 				if(!array.getString(i).isBlank()) {
 					choices.add(array.getString(i));
 				}
 			}
 			String answer="ANSWER: "+array.getString(7);
 			String bank= array.getString(8);
+			
+			
 			if(bank.equalsIgnoreCase("default")) {
 				return "page3";
 			}
@@ -444,7 +460,25 @@ public class Control {
 				}
 			}
 		    Question question= new Question(questionid, questioncontent, choices, answer);
-		    
+		    choicesgoc.add("none");
+		    if(imgcontent!=null) {
+		    	question.setImageContent(ImageService.saveImageContent(imgcontent, questionid));
+		    }
+		    if(imgchoice1!=null) {
+		    	question.setImageChoice(1,ImageService.saveImageChoice(1, imgchoice1, questionid));
+		    }
+		    if(imgchoice2!=null) {
+		    	question.setImageChoice(2-ImageService.countblank(choicesgoc, 2),ImageService.saveImageChoice(2-ImageService.countblank(choicesgoc, 2), imgchoice2, questionid));
+		    }
+		    if(imgchoice3!=null) {
+		    	question.setImageChoice(3-ImageService.countblank(choicesgoc, 3),ImageService.saveImageChoice(3-ImageService.countblank(choicesgoc, 3), imgchoice3, questionid));
+		    }
+		    if(imgchoice4!=null) {
+		    	question.setImageChoice(4-ImageService.countblank(choicesgoc, 4),ImageService.saveImageChoice(4-ImageService.countblank(choicesgoc, 4), imgchoice4, questionid));
+		    }
+		    if(imgchoice5!=null) {
+		    	question.setImageChoice(5-ImageService.countblank(choicesgoc, 5),ImageService.saveImageChoice(5-ImageService.countblank(choicesgoc, 5), imgchoice5, questionid));
+		    }
 			QuestionService.savequestion(conn,question, bank)	;
 			return "page3_2";
 			
@@ -454,7 +488,7 @@ public class Control {
 			
 		}
 		
-		return "page3_2";
+		return "page3";
 	}
 
 	@GetMapping("/getQuestion2_1")
@@ -605,13 +639,44 @@ public class Control {
 			List<String> list = BankDao.DisplayBank(conn);
 			
 			model.addAttribute("list",list);
+			if(ImageService.isImageFileExists("src/main/resources/static"+ques.getImageContent())) {
+				model.addAttribute("imagecontent", ImageService.convertMultipartFileToBase64(new CustomMultipartFile(new File("src/main/resources/static"+ques.getImageContent()))));				
+			}
+			if(ImageService.isImageFileExists("src/main/resources/static"+ques.getImageChoice1())) {
+				model.addAttribute("imagechoice1", ImageService.convertMultipartFileToBase64(new CustomMultipartFile(new File("src/main/resources/static"+ques.getImageChoice1()))));
+				
+			}
+			if(ImageService.isImageFileExists("src/main/resources/static"+ques.getImageChoice2())) {
+				model.addAttribute("imagechoice2", ImageService.convertMultipartFileToBase64(new CustomMultipartFile(new File("src/main/resources/static"+ques.getImageChoice2()))));
+				
+			}
+			if(ImageService.isImageFileExists("src/main/resources/static"+ques.getImageChoice3())) {
+				model.addAttribute("imagechoice3", ImageService.convertMultipartFileToBase64(new CustomMultipartFile(new File("src/main/resources/static"+ques.getImageChoice3()))));
+				
+			}
+			if(ImageService.isImageFileExists("src/main/resources/static"+ques.getImageChoice4())) {
+				
+				model.addAttribute("imagechoice4", ImageService.convertMultipartFileToBase64(new CustomMultipartFile(new File("src/main/resources/static"+ques.getImageChoice4()))));
+			}
+			if(ImageService.isImageFileExists("src/main/resources/static"+ques.getImageChoice5())) {
+				model.addAttribute("imagechoice5", ImageService.convertMultipartFileToBase64(new CustomMultipartFile(new File("src/main/resources/static"+ques.getImageChoice5()))));
+				
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return "editquestion";
 	} 
 	@PostMapping("/editquestion")
-	public String editQuestion(@RequestParam("bankgoc") String bankgoc,@RequestParam("list") String list,RedirectAttributes redirectAttributes) {
+	public String editQuestion(@RequestParam("bankgoc") String bankgoc,@RequestParam("list") String list,RedirectAttributes redirectAttributes,
+		@RequestParam(value = "imgcontent", required = false) MultipartFile imgcontent,
+			@RequestParam(value = "imgchoice1", required = false) MultipartFile imgchoice1,
+			@RequestParam(value = "imgchoice2", required = false) MultipartFile imgchoice2,
+			@RequestParam(value = "imgchoice3", required = false) MultipartFile imgchoice3,
+			@RequestParam(value = "imgchoice4", required = false) MultipartFile imgchoice4,
+			@RequestParam(value = "imgchoice5", required = false) MultipartFile imgchoice5
+		) {
+			
 		try {
 			Connection conn= DBConnection.CreateConnection();
 			String decodedQuestions = URLDecoder.decode(list, "UTF-8");
@@ -622,16 +687,58 @@ public class Control {
 			String questionid=array.getString(0);
 			String questioncontent=array.getString(1);
 			ArrayList<String> choices= new ArrayList<>();
+			ArrayList<String> choicesgoc= new ArrayList<>();
 			for(int i=2;i<=6;i++) {
+				choicesgoc.add(array.getString(i));
 				if(!array.getString(i).isBlank()) {
 					choices.add(array.getString(i));
 				}
 			}
 			String answer="ANSWER: "+array.getString(7);
 			String bank= array.getString(8);
+			Question ques= QuestionService.searchQuestion(questionid);
+			String imgcon= ques.getImageContent();
+			String imgch1= ques.getImageChoice1();
+			String imgch2= ques.getImageChoice2();
+			String imgch3= ques.getImageChoice3();
+			String imgch4= ques.getImageChoice4();
+			String imgch5= ques.getImageChoice5();
 			QuestionService.removequestion(array.getString(9));
 			System.out.println(array.getString(9));
 			Question question= new Question(questionid, questioncontent, choices, answer);
+			
+		 if(imgcontent!=null) {
+			    	question.setImageContent(ImageService.saveImageContent(imgcontent, questionid));
+			    }else  {
+			    	
+			    	question.setImageContent(imgcon);
+
+			    }
+		 	    if(imgchoice1!=null) {
+			    	question.setImageChoice(1-ImageService.countblank(choicesgoc, 1),ImageService.saveImageChoice(1-ImageService.countblank(choicesgoc, 1), imgchoice1, questionid));
+			    }else {
+			    	question.setImageChoice1(imgch1);
+			    }
+			    if(imgchoice2!=null) {
+			    	question.setImageChoice(2-ImageService.countblank(choicesgoc, 2),ImageService.saveImageChoice(2-ImageService.countblank(choicesgoc, 2), imgchoice2, questionid));
+			    }else {
+			    	question.setImageChoice2(imgch2);
+			    }
+			    if(imgchoice3!=null) {
+			    	question.setImageChoice(3-ImageService.countblank(choicesgoc, 3),ImageService.saveImageChoice(3-ImageService.countblank(choicesgoc, 3), imgchoice3, questionid));
+			    }else {
+			    	question.setImageChoice3(imgch3);
+			    }
+			    if(imgchoice4!=null) {
+			    	question.setImageChoice(4-ImageService.countblank(choicesgoc, 4),ImageService.saveImageChoice(4-ImageService.countblank(choicesgoc, 4), imgchoice4, questionid));
+			    }else {
+			    	question.setImageChoice4(imgch4);
+			    }
+			    if(imgchoice5!=null) {
+			    	question.setImageChoice(5-ImageService.countblank(choicesgoc, 5),ImageService.saveImageChoice(5-ImageService.countblank(choicesgoc, 5), imgchoice5, questionid));
+			    } else {
+			    	question.setImageChoice5(imgch5);
+			    }
 			QuestionService.savequestion(conn, question, bank);
 			if(bank.equalsIgnoreCase("default")) {
 				return "page3";
@@ -671,4 +778,5 @@ public class Control {
 		}
 		return "redirect:/{quiz}/Editquiz";
 	}
+	
 }

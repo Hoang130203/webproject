@@ -254,7 +254,7 @@ public static void savequestion(Connection conn,Question question,String bank) t
 		try {
 
                	 
-               	String sql = "INSERT INTO question VALUES(?,?,?,?,?,?,?,?)";
+               	String sql = "INSERT INTO question VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                	String sql1="insert into bank_question values('"+bank+"','"+question.getQuestionID()+"');";
                	 try {
                  	
@@ -280,6 +280,37 @@ public static void savequestion(Connection conn,Question question,String bank) t
                    
                    	
                    	ptmt.setString(8, question.getAnswer());
+                	if(question.getImageContent()!= null && !question.getImageContent().isEmpty()) {
+                   		ptmt.setString(9, question.getImageContent());
+                   	}else {
+                   		ptmt.setString(9, null);
+                   	}
+                   	ptmt.setString(9,question.getImageContent());
+                   	if(question.getImageChoice1()!= null && !question.getImageChoice1().isEmpty()) {
+                   		ptmt.setString(10, question.getImageChoice1());
+                   	}else {
+                   		ptmt.setString(10, null);
+                   	}
+                   	if(question.getImageChoice2()!= null && !question.getImageChoice2().isEmpty()) {
+                   		ptmt.setString(11, question.getImageChoice2());
+                   	}else {
+                   		ptmt.setString(11, null);
+                   	}
+                   	if(question.getImageChoice3()!= null && !question.getImageChoice3().isEmpty()) {
+                   		ptmt.setString(12, question.getImageChoice3());
+                   	}else {
+                   		ptmt.setString(12, null);
+                   	}
+                   	if(question.getImageChoice4()!= null && !question.getImageChoice4().isEmpty()) {
+                   		ptmt.setString(13, question.getImageChoice4());
+                   	}else {
+                   		ptmt.setString(13, null);
+                   	}
+                   	if(question.getImageChoice5()!= null && !question.getImageChoice5().isEmpty()) {
+                   		ptmt.setString(14, question.getImageChoice5());
+                   	}else {
+                   		ptmt.setString(14, null);
+                   	}
                    	ptmt.executeUpdate();
                    	ptmt= conn.prepareStatement(sql1);
                    	ptmt.executeUpdate();
@@ -317,7 +348,7 @@ public static void savequestion(Connection conn,Question question,String bank) t
 				
                	 System.out.println(question.getQuestionID());
                	 
-               	String sql = "INSERT INTO question VALUES(?,?,?,?,?,?,?,?)";
+               	String sql = "INSERT INTO question VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                	
                	 try {
                  	
@@ -343,6 +374,9 @@ public static void savequestion(Connection conn,Question question,String bank) t
                    
                    	System.out.println(question.getQuestionID());
                    	ptmt.setString(8, question.getAnswer());
+                   	for(int j=9;j<=14;j++) {
+                   		ptmt.setString(j, null);
+                   	}
                    	ptmt.executeUpdate();
                    	System.out.println(sql);
     				
@@ -460,7 +494,12 @@ public static void savequestion(Connection conn,Question question,String bank) t
 							
 					}
 					question= new Question(rs.getString(1), rs.getString(2), listchoice, rs.getString(8));
-				
+				    question.setImageContent(rs.getString(9));
+				    question.setImageChoice1(rs.getString(10));
+				    question.setImageChoice2(rs.getString(11));
+				    question.setImageChoice3(rs.getString(12));
+				    question.setImageChoice4(rs.getString(13));
+				    question.setImageChoice5(rs.getString(14));
 				}
 			}
 		} catch (Exception e) {
