@@ -64,7 +64,56 @@ display: inline-block;
 .close:hover{
 font-size: 20px;
 }
+.left{
+color:red;
+display:inline-block;
+text-align: right;
+
+width: 150px;
+margin-right:20px;
+}
+.right{
+color: black;
+
+}
+.odd{
+background-color:#e8e5e5;
+}
+#ketqua{
+display: none;
+}
+#ketqua > p{
+margin:0px;
+padding:5px;
+}
 </style>
+<div id="ketqua" style="position: fixed; left:27px;top:5px;color:red; font-size: larger;height: 195px;width:93%;z-index: 10000;background-color: white;border:1px solid gray;border-radius:5px ">
+<p class="odd">
+<span class="left">Start on</span>
+<span class="right"></span>
+</p>
+<p>
+<span class="left">State</span>
+<span class="right">Finished</span>
+</p>
+<p class="odd">
+<span class="left">Completed on</span>
+<span class="right"></span>
+</p>
+<p>
+<span class="left">Time taken</span>
+<span class="right"></span>
+</p>
+<p class="odd">
+<span class="left">Marks</span>
+<span id="mark" class="right"></span>
+</p>
+<p>
+<span class="left">Grade</span>
+<span class="right" id="mark10"></span>
+</p>
+</div>
+
 <div class="div2" style="margin: 0px;top:0px;min-height:500px;">
 <div style="margin: 0px;top:20px;height: 200px;position:-webkit-sticky;
     background-color:white;
@@ -94,7 +143,6 @@ font-size: 20px;
 <h3 class= "tieude" th:text="'Home  / My course  / THI Cuối kỳ/  '+${quizname}"></h3>
 
 </div>
-<div id="mark" style="position: fixed; left:10%;top:23%;;color:red; font-size: larger;"></div>
 <div id="timer" style="border: 1px solid red; width: 100px; height: 25px;position: relative; left: 57%; bottom: 10px;background-color: white;"></div>
 </div>
 
@@ -144,7 +192,7 @@ window.addEventListener('DOMContentLoaded', function() {
   var div2 = document.querySelector('.div2');
   
   var div1Height = div1.offsetHeight;
-  var div2Height = div1Height + 20;
+  var div2Height = div1Height + 900;
   
   div2.style.height = div2Height + 'px';
 });
@@ -234,6 +282,9 @@ function stopp(){
 	   console.log(j+"/"+numberq.length)
 	   const mark= document.getElementById("mark")
 	   mark.innerHTML="số câu đúng: "+j+"/"+numberq.length
+	   const mark10= document.getElementById("mark10")
+	   mark10.innerHTML= j/numberq.length*10+" out of 10.00 ("+ j/numberq.length*100+"%)"
+	   document.getElementById("ketqua").style.display="block"
 }
 function scrollToPosition(position) {
 	  // Tính toán vị trí cuộn dựa trên giá trị của nút

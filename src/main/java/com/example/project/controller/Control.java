@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -35,6 +37,7 @@ import com.example.project.DAO.Quiz_QuestionService;
 import com.example.project.DB.DBConnection;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
@@ -274,19 +277,36 @@ public class Control {
             	if(conn==null) {
             		
             	}else {
-            		 byte[] fileBytes = file.getBytes();
+            		String fileName=file.getOriginalFilename();
+            		if(!fileName.toLowerCase().endsWith("docx")&& !fileName.toLowerCase().endsWith("txt")) {
+            			error="chọn sai định dạng, hãy chọn tệp đuôi docx hoặc txt!";
+            		}else {
+            		if(fileName.toLowerCase().endsWith("docx")) {
+            			InputStream inputStream = file.getInputStream();
+                        XWPFDocument docx = new XWPFDocument(inputStream);
+                        XWPFWordExtractor extractor = new XWPFWordExtractor(docx);
 
-                     // Xử lý nội dung của tệp hoặc lưu vào biến khác
-                    fileContent = new String(fileBytes);
+                        // Đọc các đoạn văn bản trong tệp DOCX
+                        fileContent= extractor.getText();
+                        extractor.close();
+                        docx.close();
+                        inputStream.close();
+            		}else {
+            			
+            			byte[] fileBytes = file.getBytes();
+            			
+            			// Xử lý nội dung của tệp hoặc lưu vào biến khác
+            			fileContent = new String(fileBytes);
+            		}
                      
                      listquestion= QuestionService.format(fileContent);
                     System.out.println(listquestion.toString());
                      error=QuestionService.saveQuestion(conn, listquestion,fileContent);
                      if(error.equalsIgnoreCase("không có lỗi nào!")){
-                    	 error="không có lỗi ";
+                    	 error="không có lỗi, tổng cộng "+listquestion.size()+" câu hỏi";
                      }
             	}
-               
+            	}
                 // Tiếp tục xử lý hoặc thực hiện các thao tác khác với nội dung tệp
 
                

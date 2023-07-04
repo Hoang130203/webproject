@@ -1,5 +1,6 @@
 package com.example.project.DAO;
 
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,8 +12,10 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
+
 import com.itextpdf.text.pdf.PdfWriter;
 
 import com.example.project.BEAN.Question;
@@ -33,7 +36,8 @@ public class Export {
 	}
 	public void expordPdf()
 	{
-		String s="";
+		
+		List<String> lists= new ArrayList<>();
 		Quiz quiz = null;
 		Connection conn= null;
 		try {
@@ -50,12 +54,24 @@ public class Export {
 		}
 		for(Question ques:QuizService.listQuestion(conn, quiz.getQuizName()))
 		{
-			s=s+ques.getQuestionID()+": "+ques.getQuestionContent().replaceAll("<br>", "\n")+"\n";
+			lists.add(ques.getQuestionID()+": "+ques.getQuestionContent().replaceAll("<br>", "\n")+"\n");
+			if(ques.getImageContent()!=null && !ques.getImageContent().isEmpty()) {
+				lists.add("src/main/resources/static"+ques.getImageContent());
+				lists.add("\n");
+			}
+			int i=1;
 			for(String choice:ques.getListChoice())
 			{
-				s=s+choice+"\n";
+				lists.add(choice+"\n");
+				if(ques.getImageChoice(i)!=null && !ques.getImageChoice(i).isEmpty()) {
+					if(ques.getImageChoice(i).endsWith(".jpg") || ques.getImageChoice(i).endsWith(".png") ||ques.getImageChoice(i).endsWith(".jpeg")) {
+						
+						lists.add("src/main/resources/static"+ques.getImageChoice(i));
+					}
+				}
+				i++;
 			}
-			s=s+"\n";
+			lists.add("\n");
 			try {
 				String path = "D:\\"+name+".pdf"; 
 				Document doc = new Document();
@@ -66,8 +82,28 @@ public class Export {
 				Font font = new Font(bf, 12f, Font.NORMAL, BaseColor.BLACK);
 				Paragraph para = new Paragraph();
 				para.setFont(font);
-				para.add(s);
-				doc.add(para);
+				for(String text:lists) {
+					if(text.startsWith("src/main/resources")) {
+						Image image = Image.getInstance(text);
+						float maxHeight = 100f; // Chiều cao tối đa (ví dụ: 150 pixels)
+					    float width = image.getWidth();
+					    float height = image.getHeight();
+					    
+					    if (height > maxHeight) {
+					        float scaleFactor = maxHeight / height;
+					        float newWidth = width * scaleFactor;
+					        
+					        // Đặt lại kích thước ảnh theo chiều cao tối đa và tỷ lệ
+					        image.scaleToFit(newWidth, maxHeight);
+					    }
+			            doc.add(image);
+					}else {
+						
+						para.add(text);
+						doc.add(para);
+						para.remove(0);
+					}
+				}
 				doc.close();
 			}
 		 catch (FileNotFoundException e2) {
@@ -84,8 +120,10 @@ public class Export {
 	}
 	public void expordPdfwithPass()
 	{
-		String s="";
+		
 		Quiz quiz = null;
+		List<String> lists= new ArrayList<>();
+
 		Connection conn= null;
 		try {
 			conn= DBConnection.CreateConnection();
@@ -101,12 +139,24 @@ public class Export {
 		}
 		for(Question ques:QuizService.listQuestion(conn, quiz.getQuizName()))
 		{
-			s=s+ques.getQuestionID()+": "+ques.getQuestionContent().replaceAll("<br>", "\n")+"\n";
+			lists.add(ques.getQuestionID()+": "+ques.getQuestionContent().replaceAll("<br>", "\n")+"\n");
+			if(ques.getImageContent()!=null && !ques.getImageContent().isEmpty()) {
+				lists.add("src/main/resources/static"+ques.getImageContent());
+				lists.add("\n");
+			}
+			int i=1;
 			for(String choice:ques.getListChoice())
 			{
-				s=s+choice+"\n";
+				lists.add(choice+"\n");
+				if(ques.getImageChoice(i)!=null && !ques.getImageChoice(i).isEmpty()) {
+					if(ques.getImageChoice(i).endsWith(".jpg") || ques.getImageChoice(i).endsWith(".png") ||ques.getImageChoice(i).endsWith(".jpeg")) {
+						
+						lists.add("src/main/resources/static"+ques.getImageChoice(i));
+					}
+				}
+				i++;
 			}
-			s=s+"\n";
+			lists.add("\n");
 			try {
 				String path="D:\\"+name+".pdf"; 
 				Document doc = new Document();
@@ -120,8 +170,28 @@ public class Export {
 				Font font = new Font(bf, 12f, Font.NORMAL, BaseColor.BLACK);
 				Paragraph para = new Paragraph();
 				para.setFont(font);
-				para.add(s);
-				doc.add(para);
+				for(String text:lists) {
+					if(text.startsWith("src/main/resources")) {
+						Image image = Image.getInstance(text);
+						float maxHeight = 100f; // Chiều cao tối đa (ví dụ: 150 pixels)
+					    float width = image.getWidth();
+					    float height = image.getHeight();
+					    
+					    if (height > maxHeight) {
+					        float scaleFactor = maxHeight / height;
+					        float newWidth = width * scaleFactor;
+					        
+					        // Đặt lại kích thước ảnh theo chiều cao tối đa và tỷ lệ
+					        image.scaleToFit(newWidth, maxHeight);
+					    }
+			            doc.add(image);
+					}else {
+						
+						para.add(text);
+						doc.add(para);
+						para.remove(0);
+					}
+				}
 				doc.close();
 			}
 		 catch (FileNotFoundException e2) {
