@@ -178,7 +178,7 @@ expires. Are you sure you wish to start now?
 	<hr>
 	</div>
 	<p style="position: relative;left:20px;">
-	<a th:href="@{{quizname}/preview(quizname=${quizname})}" >
+	<a th:href="@{/{quizname}/preview(quizname=${quizname})}" >
 		<button class="a" style="background-color: red;">START ATTEMP</button>
 	
 	</a>
@@ -195,7 +195,7 @@ expires. Are you sure you wish to start now?
 <p style="align-items: center;">
 <button onclick="tpass()" style="width: 50px;height: 25px;margin:20px;margin-bottom: 0px;margin-left: 40px;background-color:green;color:white">CÓ</button>
 
-<a th:href="@{/{quiz}/exportnopass(quiz=${quizname})}" style="text-decoration:none;">
+<a th:href="@{/{quiz}/export/exportnopass(quiz=${quizname})}" style="text-decoration:none;">
 <button style="width: 70px;height: 25px;margin:20px;margin-bottom: 0px;background-color:red;color:white;">KHÔNG
 </button>
 </a>
@@ -205,7 +205,7 @@ expires. Are you sure you wish to start now?
 <i onclick="closepass()" class="ti-close" style="float:right;margin:10px;color: red"></i>
 <br>
 <hr>
-<form th:action="@{/{quiz}/exportwithpass(quiz=${quizname})}" method="get">
+<form th:action="@{/{quiz}/export/exportwithpass(quiz=${quizname})}" method="get">
 <h3 style="color:chocolate;">Đặt mật khẩu</h3>
 <p>Mật khẩu:  <input type="password" style="width: 170px;margin-left:10px;position: absolute; left:40%;" name="pass" id="passw"> </p>
 <p>Nhập lại lần nữa: <input onchange="kiemtra()" type="password" style="width: 170px;margin-left:10px;position: absolute;left:40%;" id="repassw"> </p>

@@ -195,7 +195,7 @@ ol li:before {
     ">
   <ol style="list-style-type: none;position: relative; left:0%;margin-top: 30px;max-height:90%;">
   <li class="quiz" th:each ="quiz: ${list}" style="padding: 5px; width: 400px;max-width:87%;border: 1px solid #bebebe;border-radius: 2px ">
-  <a th:href="@{/{quizname}(quizname=${quiz.getQuizName})}" style="text-decoration: none;" ><span th:text="${quiz.getQuizName}"></span></a>
+  <a th:href="@{/{quizname}/quiz(quizname=${quiz.getQuizName})}" style="text-decoration: none;" ><span th:text="${quiz.getQuizName}"></span></a>
   <a th:href="@{/{quizname}/xoa(quizname=${quiz.getQuizName})}" th:onclick="'javascript:showDeleteAlert()'">
     <button  class="ti-trash" style="float:right;color: red; cursor: pointer; border: none;background-color:white;border-radius:3px;"></button>
   

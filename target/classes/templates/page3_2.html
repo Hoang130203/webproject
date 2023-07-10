@@ -6,6 +6,8 @@
 <meta charset="UTF-8">
 <title>Page3_2</title>
 <link rel="stylesheet" href="/icons/themify-icons/themify-icons.css" >
+<link rel="stylesheet" href="/icons/fontello-f413f11a/css/fontello.css" >
+
 <link rel="stylesheet" href="/css/navbar.css">
 </head>
 <body>
@@ -62,7 +64,7 @@ display: block;
     ">
 <h1 style="color: red;margin: 20px;">Adding a multiple choice question</h1>
 <div style="margin: 20px;padding:10px;">
-<p style="color:red;"><i class="ti-control-play" style="color: blue"></i>&nbsp;General</p>
+<p style="color:red;"><i class="icon-down-dir" style="color: blue"></i>&nbsp;General</p>
 <hr style="border-top: 1px solid #d3c7c70f;">
 <p> Category               
 <select id="select" name="category" style=" align-items: center;position:absolute; left:40vw;width: 200px;height: 30px;">
@@ -74,20 +76,24 @@ display: block;
 </select> </p>
 <hr style="border-top: 1px solid #d3c7c70f;">
 <p>Question name
+<i class="icon-attention-alt" style="color:white;background-color:red;position: absolute;left:37vw;border-radius:15px;font-size:10px;margin-top:8px;padding-top:3px;"></i>
 <input type="text" id="qname" name="questionname" style="width: 300px;height: 30px;position:absolute; left:40vw;z-index: 2">
 </p>
 <hr style="border-top: 1px solid #d3c7c70f;">
 <div >Question text
+<i class="icon-attention-alt" style="color:white;background-color:red;position: absolute;left:37vw;border-radius:15px;font-size:10px;margin-top:8px;padding-top:3px;"></i>
 <textarea id="qcontent" name="questioncontent" rows="15" cols="50" style="position: absolute;left:40vw;"></textarea> 
 <span>
 <img alt="" src="" id="imgcontent" style="width: auto;max-height: 200px;max-width:400px; float: right;position: relative;z-index: 1;" >
-<input  type="file" name="imagecontent" id="imagecontent"   onchange="chooseimagecontent(this)" accept="image/jpg,image/jpeg,image/png" style="position:relative ;left:30px;">
+<input  type="file" name="imagecontent" id="imagecontent"   onchange="chooseimagecontent(this)" accept="image/jpg,image/jpeg,image/png,image/gif" style="position:relative ;left:30px;">
 
 </span>
 </div>
 <br><br><br><br><br><br><br><br><br><br><br><br>
 <hr style="border-top: 1px solid #d3c7c70f;">
 <p><i >Answer </i>
+<i class="icon-attention-alt" style="color:white;background-color:red;position: absolute;left:37vw;border-radius:15px;font-size:10px;margin-top:8px;padding-top:3px;"></i>
+
 <input type="text" id="answer" name="answer" style="width: 300px;height: 30px;position:absolute; left:40vw;">
 </p>
 </div>
@@ -120,7 +126,7 @@ display: block;
 
 </div>
 <div>
-<input type="file" th:id="'imagechoice'+${index}" th:name="'imagechoice'+${index}" th:onchange="'chooseimagechoice('+${index}+',this)'" >
+<input type="file" th:id="'imagechoice'+${index}" th:name="'imagechoice'+${index}" accept="image/jpg,image/jpeg,image/png,image/gif" th:onchange="'chooseimagechoice('+${index}+',this)'" >
 </div>
 
 
@@ -151,7 +157,7 @@ display: block;
 
 </div>
 <div>
-<input type="file" th:id="'imagechoice'+${index}" th:name="'imagechoice'+${index}" th:onchange="'chooseimagechoice('+${index}+',this)'" >
+<input type="file" th:id="'imagechoice'+${index}" th:name="'imagechoice'+${index}" accept="image/jpg,image/jpeg,image/png,image/gif" th:onchange="'chooseimagechoice('+${index}+',this)'" >
 </div>
 </div>
 

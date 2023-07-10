@@ -48,19 +48,32 @@ public class QuestionService {
 	      }
 	    int demdong=0;
 	    String loi= "Error at: ";
-      for(String qs: q) {
-    	  
+      for(int j = 0; j < q.size(); j++) {
+    	  String qs = q.get(j);
+    	 
       	Scanner sc= new Scanner(qs);
       	
       	String line= sc.nextLine();
       	demdong++;
       	String name;
       	String cauHoi;
+      	int index1=line.indexOf(':');
+      	int index2=line.indexOf('.');
+      	if(index1>0 && index2>0) {
+      		int i=index1<index2?index1:index2;
+      		name= line.substring(0,i);
+      		cauHoi= line.substring(i+1).trim();
+      	}else 
       	if(line.indexOf(':')>0) {
       		name= line.substring(0,line.indexOf(':'));
       		cauHoi= line.substring(line.indexOf(':')+1).trim();
       		
-      	}else {
+      	}else if(line.indexOf('.')>0){
+      		name= line.substring(0,line.indexOf('.'));
+      		cauHoi= line.substring(line.indexOf('.')+1).trim();
+      	}
+      	else {
+      	
       		name= null;
       		cauHoi= line.trim();
       	}
@@ -113,7 +126,7 @@ public class QuestionService {
       	}
       	String answer= line;
       	
-      	if(name==null || cauHoi==null || cauHoi.equalsIgnoreCase("") || choices==null ||choices.size()<=2 || answer==null || answer.equalsIgnoreCase("") || choices.size()>5 || choices.size()<2
+      	if(name==null || cauHoi==null || cauHoi.equalsIgnoreCase("") || choices==null || answer==null || answer.equalsIgnoreCase("") || choices.size()>5 || choices.size()<2
       			|| !answer.substring(0,6).equalsIgnoreCase("ANSWER")||choices.get(0).charAt(1)!='.') {
       		loi+=demdong+" ";
       		continue;
@@ -144,20 +157,17 @@ public class QuestionService {
 	    	  if(line==null) {
 	    		  break;
 	    	  }
-	    	  if(line.isBlank() || line.isEmpty()) {
-//	    		  line= scanner.nextLine();
-	    		  continue;
-	    	  }
+	    	  
 	    	  while(!line.toUpperCase().contains("ANSWER: A") &&!line.toUpperCase().contains("ANSWER: B") &&!line.toUpperCase().contains("ANSWER: C") 
 	    			  &&!line.toUpperCase().contains("ANSWER: D") &&!line.toUpperCase().contains("ANSWER: E")){
 	    		  tex= tex+line+"\n";
 	    		  line=scanner.nextLine();
 	    	  }
 	    	  tex=tex+line;
-	    	  if(!tex.isBlank() && !tex.isEmpty()) {
+	    	  
 	    		  q.add(tex);
 //	    		  i++;
-	    	  }
+	    	  
 	    	  
 //	    	  line=scanner.nextLine();
 	      }
@@ -167,13 +177,28 @@ public class QuestionService {
     	Scanner sc= new Scanner(qs);
     	String line= sc.nextLine();
     	demdong++;
+    	while(line.isBlank()) {
+    		line=sc.nextLine();
+    		demdong++;
+    	}
     	String name;
       	String cauHoi;
+      	int index1=line.indexOf(':');
+      	int index2=line.indexOf('.');
+      	if(index1>0 && index2>0) {
+      		int i=index1<index2?index1:index2;
+      		name= line.substring(0,i);
+      		cauHoi= line.substring(i+1).trim();
+      	}else 
       	if(line.indexOf(':')>0) {
       		name= line.substring(0,line.indexOf(':'));
       		cauHoi= line.substring(line.indexOf(':')+1).trim();
       		
+      	}else if(line.indexOf('.')>0){
+      		name= line.substring(0,line.indexOf('.'));
+      		cauHoi= line.substring(line.indexOf('.')+1).trim();
       	}else {
+      	
       		name= null;
       		cauHoi= line.trim();
       	}
@@ -225,7 +250,7 @@ public class QuestionService {
       	}
       	String answer= line;
       	
-      	if(name==null || cauHoi==null || cauHoi.equalsIgnoreCase("") || choices==null ||choices.size()<=2 || answer==null || answer.equalsIgnoreCase("") || choices.size()>5 || choices.size()<2
+      	if(name==null || cauHoi==null || cauHoi.equalsIgnoreCase("") || choices==null || answer==null || answer.equalsIgnoreCase("") || choices.size()>5 || choices.size()<2
       			|| !answer.substring(0,6).equalsIgnoreCase("ANSWER")||choices.get(0).charAt(1)!='.') {
       		loi+=demdong+" ";
       		continue;

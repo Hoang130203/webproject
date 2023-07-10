@@ -6,6 +6,8 @@
 <meta charset="UTF-8">
 <title>editquestion</title>
 <link rel="stylesheet" href="/icons/themify-icons/themify-icons.css" ></head>
+<link rel="stylesheet" href="/icons/fontello-f413f11a/css/fontello.css" ></head>
+
 <link rel="stylesheet" href="/css/navbar.css">
 
 <body>
@@ -83,22 +85,25 @@ display: block;
 </select> </p>
 <hr style="border-top: 1px solid #d3c7c70f;">
 <p>Question name
+<i class="icon-attention-alt" style="color:white;background-color:red;position: absolute;left:37vw;border-radius:15px;font-size:10px;margin-top:8px;padding-top:3px;"></i>
 <input onchange="showdata()" readonly type="text" id="qname" name="questionname" th:value="${ques.getQuestionID()}" style="width: 300px;height: 30px;position:absolute; left:40vw;">
 <input type="hidden" id="oldid" th:value="${ques.getQuestionID()}" >
 </p>
 <hr style="border-top: 1px solid #d3c7c70f;">
 <div >Question text
+<i class="icon-attention-alt" style="color:white;background-color:red;position: absolute;left:37vw;border-radius:15px;font-size:10px;margin-top:8px;padding-top:3px;"></i>
 <textarea onchange="showdata()"   id="qcontent" name="questioncontent" th:text="${ques.getQuestionContent()}" rows="15" cols="50" style="position: absolute;left:40vw;"></textarea> 
 <span>
 
 <img onchange="showdata()" alt="Example Image" th:src="'data:image/jpeg;base64,'+${imagecontent}" id="imgcontent" style="width: auto;max-height: 200px;max-width:400px; float: right;position: relative;z-index: 1;" >
-<input  type="file" name="imagecontent" id="imagecontent" onclick="showdata()"  onchange="chooseimagecontent(this)" accept="image/jpg,image/jpeg,image/png" style="position:relative ;left:30px;">
+<input  type="file" name="imagecontent" id="imagecontent" onclick="showdata()"  onchange="chooseimagecontent(this)" accept="image/jpg,image/jpeg,image/png,image/gif" style="position:relative ;left:30px;">
 
 </span>
 </div>
 <br><br><br><br><br><br><br><br><br><br><br><br>
 <hr style="border-top: 1px solid #d3c7c70f;">
 <p><i>Answer </i>
+<i class="icon-attention-alt" style="color:white;background-color:red;position: absolute;left:37vw;border-radius:15px;font-size:10px;margin-top:8px;padding-top:3px;"></i>
 <input  onchange="showdata()"   th:value="${ques.getAnswer.charAt(ques.getAnswer.length-1)}" type="text" id="answer" name="answer" style="width: 300px;height: 30px;position:absolute; left:40vw;">
 </p>
 </div>
@@ -124,7 +129,7 @@ display: block;
 
 </div>
 <div>
-<input type="file" th:id="'imagechoice'+${index.count}" th:name="'imagechoice'+${index.count}"  onclick="showdata()" th:onchange="'chooseimagechoice('+${index.count}+',this)'" >
+<input type="file" th:id="'imagechoice'+${index.count}" th:name="'imagechoice'+${index.count}"  accept="image/jpg,image/jpeg,image/png,image/gif" onclick="showdata()" th:onchange="'chooseimagechoice('+${index.count}+',this)'" >
 </div>
 
 
@@ -320,7 +325,7 @@ function showdata(){
                     	alert("nhập đáp án và nhập ít nhất 2 lựa chọn ")
                     }else
                     {
-                    	alert("mã câu hỏi đã tồn tại");
+                    	alert("đã sửa");
                     }
                 }
             });

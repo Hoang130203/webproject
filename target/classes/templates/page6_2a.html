@@ -107,7 +107,7 @@ color: white;
 <span th:text="'Question: '+${list.size()}+' | This quiz is open '"></span>
 <span class="element" style="position: absolute; right:5%; ">Maximum grade <input type="text" value="10.00" style="width: 50px;height:26px;"> <button class="button">SAVE</button> </span>
 </p>
-<a th:href="@{/{quiz}(quiz=${quiz})}" style="text-decoration: none; background-color: blue; color:white;padding: 8px;margin-left: 30px;">TRỞ VỀ GIAO DIỆN THI</a>
+<a th:href="@{/{quiz}/quiz(quiz=${quiz})}" style="text-decoration: none; background-color: blue; color:white;padding: 8px;margin-left: 30px;">TRỞ VỀ GIAO DIỆN THI</a>
 <p class="tieude">
 <button class="button">REPAGINATE</button>
 <button class="button">SELECT MULTIPLEITEMS</button>

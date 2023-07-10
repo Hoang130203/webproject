@@ -9,16 +9,29 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.json.JSONArray;
 import org.json.JSONException;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -36,15 +49,52 @@ import com.example.project.DAO.QuizService;
 import com.example.project.DAO.Quiz_QuestionService;
 import com.example.project.DB.DBConnection;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Controller
 public class Control {
 	
-	
+    @GetMapping("/{filename:.+}")
+    public ResponseEntity<byte[]> getImage(@PathVariable String filename) throws IOException {
+        ClassPathResource imageResource = new ClassPathResource(filename);
+
+        if (imageResource.exists()) {
+            byte[] imageBytes = Files.readAllBytes(imageResource.getFile().toPath());
+            HttpHeaders headers = new HttpHeaders();
+            MediaType mediaType = determineMediaType(filename);
+            headers.setContentType(mediaType);
+
+            return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    private MediaType determineMediaType(String filename) {
+        String extension = FilenameUtils.getExtension(filename);
+        switch (extension.toLowerCase()) {
+            case "jpg":
+            case "jpeg":
+                return MediaType.IMAGE_JPEG;
+            case "png":
+                return MediaType.IMAGE_PNG;
+            case "gif":
+                return MediaType.IMAGE_GIF;
+            default:
+                return MediaType.APPLICATION_OCTET_STREAM;
+        }
+    }
+
 	@GetMapping("/")
 	public String page1(Model model) {
 		try {
@@ -113,7 +163,7 @@ public class Control {
 		}
 		return "page3_2";
 	}
-	@GetMapping("/{quizname}")
+	@GetMapping("/{quizname}/quiz")
 	public String page6_1(@PathVariable("quizname") String quizname, Model model
 						) {
 		model.addAttribute("quizname",quizname);
@@ -627,19 +677,19 @@ public class Control {
 		return "redirect:/{quiz}/Editquiz";
 	}
 
-	@GetMapping("/{quiz}/exportnopass")
+	@GetMapping("/{quiz}/export/exportnopass")
 	public String exportnopass(@PathVariable("quiz") String quiz, RedirectAttributes model) {
 		Export export= new Export(quiz);
 		export.expordPdf();
 		model.addFlashAttribute("done","done");
-		return "redirect:/{quiz}";
+		return "redirect:/{quiz}/quiz";
 	}
-	@GetMapping("/{quiz}/exportwithpass")
+	@GetMapping("/{quiz}/export/exportwithpass")
 	public String exportpass(@PathVariable("quiz") String quiz, @RequestParam("pass") String pass,RedirectAttributes model) {
 		Export export= new Export(quiz,pass);
 		export.expordPdfwithPass();
 		model.addFlashAttribute("done", "đã thêm file gắn mật khẩu!");
-		return "redirect:/{quiz}";
+		return "redirect:/{quiz}/quiz";
 	}
 	@GetMapping("/{ques}/edit")
 	public String editQuestion(@PathVariable("ques") String question,Model model,
@@ -729,33 +779,39 @@ public class Control {
 			
 		 if(imgcontent!=null) {
 			    	question.setImageContent(ImageService.saveImageContent(imgcontent, questionid));
+			    	
 			    }else  {
 			    	
 			    	question.setImageContent(imgcon);
-
+			    	
 			    }
 		 	    if(imgchoice1!=null) {
 			    	question.setImageChoice(1-ImageService.countblank(choicesgoc, 1),ImageService.saveImageChoice(1-ImageService.countblank(choicesgoc, 1), imgchoice1, questionid));
-			    }else {
+			    	
+		 	    }else {
 			    	question.setImageChoice1(imgch1);
 			    }
 			    if(imgchoice2!=null) {
 			    	question.setImageChoice(2-ImageService.countblank(choicesgoc, 2),ImageService.saveImageChoice(2-ImageService.countblank(choicesgoc, 2), imgchoice2, questionid));
+			    	
 			    }else {
 			    	question.setImageChoice2(imgch2);
 			    }
 			    if(imgchoice3!=null) {
 			    	question.setImageChoice(3-ImageService.countblank(choicesgoc, 3),ImageService.saveImageChoice(3-ImageService.countblank(choicesgoc, 3), imgchoice3, questionid));
+			    	
 			    }else {
 			    	question.setImageChoice3(imgch3);
 			    }
 			    if(imgchoice4!=null) {
 			    	question.setImageChoice(4-ImageService.countblank(choicesgoc, 4),ImageService.saveImageChoice(4-ImageService.countblank(choicesgoc, 4), imgchoice4, questionid));
+			    	
 			    }else {
 			    	question.setImageChoice4(imgch4);
 			    }
 			    if(imgchoice5!=null) {
 			    	question.setImageChoice(5-ImageService.countblank(choicesgoc, 5),ImageService.saveImageChoice(5-ImageService.countblank(choicesgoc, 5), imgchoice5, questionid));
+			    	
 			    } else {
 			    	question.setImageChoice5(imgch5);
 			    }
