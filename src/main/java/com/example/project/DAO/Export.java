@@ -83,7 +83,9 @@ public class Export {
 				Paragraph para = new Paragraph();
 				para.setFont(font);
 				for(String text:lists) {
+					
 					if(text.startsWith("src/main/resources")) {
+						try {
 						Image image = Image.getInstance(text);
 						float maxHeight = 100f; // Chiều cao tối đa (ví dụ: 150 pixels)
 					    float width = image.getWidth();
@@ -97,6 +99,10 @@ public class Export {
 					        image.scaleToFit(newWidth, maxHeight);
 					    }
 			            doc.add(image);
+						}catch (Exception e) {
+							// TODO: handle exception
+							e.printStackTrace();
+						}
 					}else {
 						
 						para.add(text);
@@ -172,6 +178,7 @@ public class Export {
 				para.setFont(font);
 				for(String text:lists) {
 					if(text.startsWith("src/main/resources")) {
+						try {
 						Image image = Image.getInstance(text);
 						float maxHeight = 100f; // Chiều cao tối đa (ví dụ: 150 pixels)
 					    float width = image.getWidth();
@@ -185,6 +192,10 @@ public class Export {
 					        image.scaleToFit(newWidth, maxHeight);
 					    }
 			            doc.add(image);
+						}catch (Exception e) {
+							// TODO: handle exception
+							e.printStackTrace();
+						}
 					}else {
 						
 						para.add(text);

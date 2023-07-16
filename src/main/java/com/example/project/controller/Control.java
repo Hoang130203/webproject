@@ -266,7 +266,7 @@ public class Control {
 			
 			List<Question> list= QuizService.listQuestion(conn, quizname);
 			List<Quiz> listQuiz= QuizService.listQuiz(conn);
-			int timelimit=3600;
+			int timelimit=60;
 			for(Quiz q:listQuiz) {
 				if(q.getQuizName().equals(quizname)) {
 				
